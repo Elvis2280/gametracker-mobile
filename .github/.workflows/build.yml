@@ -1,0 +1,22 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Prebuild
+        run: npx expo prebuild
+
+      # ... add more steps for building and deploying your project
