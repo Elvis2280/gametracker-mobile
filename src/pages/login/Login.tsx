@@ -1,11 +1,9 @@
-import React from 'react';
-import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
-import { colors, sizes } from '../../utils/theme';
-import Input from '../../components/Input/Input';
+import React, { type ReactElement } from 'react'
+import { SafeAreaView, StyleSheet, Text, View } from 'react-native'
+import { colors, sizes } from '../../utils/theme'
+import Input from '../../components/Input/Input'
 
-type Props = {};
-
-export default function Login({}: Props) {
+export default function Login(): ReactElement {
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.logo}>GameTracker</Text>
@@ -18,32 +16,32 @@ export default function Login({}: Props) {
         <Text style={styles.textWelcome}>Button</Text>
       </View>
     </SafeAreaView>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
   container: {
-    width: '100%',
-    flex: 1,
-    backgroundColor: colors.background,
     alignItems: 'center',
+    backgroundColor: colors.background,
+    flex: 1,
     justifyContent: 'space-between',
+    width: '100%'
+  },
+  inputsContainer: {
+    paddingHorizontal: sizes.spacing.medium,
+    rowGap: sizes.spacing.medium,
+    width: '100%'
   },
   logo: {
     color: colors.text,
     fontSize: sizes.text.xlarge,
-    fontWeight: 'bold',
+    fontWeight: 'bold'
   },
   textWelcome: {
     color: colors.text,
     fontSize: sizes.text.large,
     fontWeight: 'bold',
-    textAlign: 'center',
     marginBottom: sizes.spacing.small,
-  },
-  inputsContainer: {
-    width: '100%',
-    paddingHorizontal: sizes.spacing.medium,
-    rowGap: sizes.spacing.medium,
-  },
-});
+    textAlign: 'center'
+  }
+})

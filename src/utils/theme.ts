@@ -11,21 +11,21 @@ export const colors = {
     600: '#005bc4',
     700: '#004493',
     800: '#002e62',
-    900: '#001731',
-  },
-};
+    900: '#001731'
+  }
+}
 
 export const sizes = {
   text: {
     small: 12,
     medium: 16,
     large: 20,
-    xlarge: 24,
+    xlarge: 24
   },
   spacing: {
     small: 8,
     medium: 16,
     large: 24,
-    xlarge: 32,
-  },
-};
+    xlarge: 32
+  }
+}
