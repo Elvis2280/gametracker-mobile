@@ -1,20 +1,20 @@
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
-import Login from "./src/pages/login/Login";
-import { colors } from "./src/utils/theme";
+import { StyleSheet, View } from 'react-native'
+import Login from './src/pages/login/Login'
+import { colors } from './src/utils/theme'
+import React from 'react'
 
-export default function App() {
+export default function App(): React.ReactElement {
   return (
     <View style={styles.container}>
       <Login />
     </View>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: colors.background,
-    color: colors.text
+    color: colors.text,
+    flex: 1
   }
-});
+})
