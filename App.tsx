@@ -1,20 +1,14 @@
-import { StyleSheet, View } from 'react-native'
 import Login from './src/pages/login/Login'
-import { colors } from './src/utils/theme'
 import React from 'react'
+import { TamaguiProvider, Theme } from 'tamagui'
+import tamaguiConfig from './tamagui.config'
 
 export default function App(): React.ReactElement {
   return (
-    <View style={styles.container}>
-      <Login />
-    </View>
+    <TamaguiProvider config={tamaguiConfig}>
+      <Theme name={'blue_alt1'}>
+        <Login />
+      </Theme>
+    </TamaguiProvider>
   )
 }
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: colors.background,
-    color: colors.text,
-    flex: 1
-  }
-})
