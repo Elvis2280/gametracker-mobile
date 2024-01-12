@@ -2,11 +2,27 @@ import React, { useState, type ReactElement } from 'react'
 import { Input, View } from 'tamagui'
 import { Ionicons } from '@expo/vector-icons'
 
-export default function PasswordInputStyled(): ReactElement {
-  const [isSecure, setIsSecure] = useState(false)
+interface Props {
+  onChange: (text: string) => void
+  onBlur: () => void
+  value: string
+}
+
+export default function PasswordInputStyled({
+  onBlur,
+  onChange,
+  value
+}: Props): ReactElement {
+  const [isSecure, setIsSecure] = useState(true)
   return (
     <View position="relative">
-      <Input secureTextEntry={isSecure} placeholder="Password" />
+      <Input
+        onChangeText={onChange}
+        onBlur={onBlur}
+        value={value}
+        secureTextEntry={isSecure}
+        placeholder="Password"
+      />
       <View
         position="absolute"
         w="$4"
