@@ -7,8 +7,8 @@ import { useForm, Controller } from 'react-hook-form'
 export default function Login(): ReactElement {
   const {
     control,
-    handleSubmit
-    // formState: { errors }
+    handleSubmit,
+    formState: { errors }
   } = useForm({
     defaultValues: {
       email: '',
@@ -37,11 +37,12 @@ export default function Login(): ReactElement {
           >
             Welcome Back!
           </Text>
-          <YStack space={'$5'}>
+          <YStack>
             <Controller
               control={control}
               rules={{
-                required: true
+                required: true,
+                maxLength: 50
               }}
               render={({ field: { onChange, onBlur, value } }) => (
                 <Input
@@ -53,10 +54,15 @@ export default function Login(): ReactElement {
               )}
               name="email"
             />
+            <Text py={'$2'}>
+              {Boolean(errors.email) && 'This is required.'}
+            </Text>
             <Controller
               control={control}
               rules={{
-                required: true
+                required: true,
+                minLength: 8,
+                maxLength: 50
               }}
               render={({ field: { onChange, onBlur, value } }) => (
                 <PasswordInputStyled
@@ -67,6 +73,9 @@ export default function Login(): ReactElement {
               )}
               name="password"
             />
+            <Text py={'$2'}>
+              {Boolean(errors.email) && 'This is required.'}
+            </Text>
           </YStack>
         </View>
         <View space={'$4'}>
