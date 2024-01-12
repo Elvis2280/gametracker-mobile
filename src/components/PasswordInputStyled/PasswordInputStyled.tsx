@@ -6,19 +6,24 @@ export default function PasswordInputStyled(): ReactElement {
   const [isSecure, setIsSecure] = useState(false)
   return (
     <View position="relative">
-      <Input secureTextEntry={true} placeholder="Password" />
+      <Input secureTextEntry={isSecure} placeholder="Password" />
       <View
         position="absolute"
         w="$4"
-        backgroundColor={'red'}
         display="flex"
         justifyContent="center"
         alignItems="center"
-        onPress={() => {
-          setIsSecure(!isSecure)
-        }}
+        right={10}
+        top={'$2'}
       >
-        <Ionicons name="eye" size={32} color={'white'} />
+        <Ionicons
+          onPress={() => {
+            setIsSecure(!isSecure)
+          }}
+          name={isSecure ? 'eye-off' : 'eye'}
+          size={28}
+          color={'lightgrey'}
+        />
       </View>
     </View>
   )
