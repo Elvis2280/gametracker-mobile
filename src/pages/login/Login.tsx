@@ -12,14 +12,14 @@ export default function Login(): ReactElement {
         </Text>
         <View>
           <Text
-            pb={'$4'}
+            pb={'$8'}
             fontSize={'$6'}
             fontWeight={'bold'}
             textAlign="center"
           >
             Welcome Back!
           </Text>
-          <YStack space={'$4'}>
+          <YStack space={'$5'}>
             <Input placeholder="Email" />
             <PasswordInputStyled />
           </YStack>
