@@ -3,8 +3,11 @@ import React, { type ReactElement } from 'react'
 import PasswordInputStyled from '../../components/PasswordInputStyled/PasswordInputStyled'
 import { YStack, Text, View, Input, Button } from 'tamagui'
 import { useForm, Controller } from 'react-hook-form'
+import useLogin from './hooks/useLogin'
 
 export default function Login(): ReactElement {
+  const { handleLogin } = useLogin()
+
   const {
     control,
     handleSubmit,
@@ -16,12 +19,6 @@ export default function Login(): ReactElement {
     }
   })
 
-  const onSubmit = async (data: {
-    email: string
-    password: string
-  }): Promise<void> => {
-    console.log(data)
-  }
   return (
     <SafeViewStyled>
       <YStack height={'100%'} justifyContent="space-between" mx={'$4'}>
@@ -54,7 +51,7 @@ export default function Login(): ReactElement {
               )}
               name="email"
             />
-            <Text py={'$2'}>
+            <Text color={'$red11'} py={'$2'}>
               {Boolean(errors.email) && 'This is required.'}
             </Text>
             <Controller
@@ -73,13 +70,13 @@ export default function Login(): ReactElement {
               )}
               name="password"
             />
-            <Text py={'$2'}>
+            <Text color={'$red11'} py={'$2'}>
               {Boolean(errors.email) && 'This is required.'}
             </Text>
           </YStack>
         </View>
         <View space={'$4'}>
-          <Button onPress={handleSubmit(onSubmit)}>
+          <Button onPress={handleSubmit(handleLogin)}>
             <Text>Login</Text>
           </Button>
           <Button variant="outlined">
