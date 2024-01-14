@@ -7,6 +7,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import tamaguiConfig from './tamagui.config'
 import Login from './src/pages/login/Login'
 import Signup from './src/pages/signup/Signup'
+import Home from './src/pages/home/Home'
 
 export default function App(): React.ReactElement {
   // Create a client
@@ -27,6 +28,7 @@ export default function App(): React.ReactElement {
               >
                 <Stack.Screen name="Login" component={Login} />
                 <Stack.Screen name="Signup" component={Signup} />
+                <Stack.Screen name="Home" component={Home} />
               </Stack.Navigator>
             </NavigationContainer>
           </Theme>

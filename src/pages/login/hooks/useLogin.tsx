@@ -31,6 +31,7 @@ export default function useLogin(): {
   useEffect(() => {
     if (isSuccess) {
       handleSetSecureValue(storageKeys.token, data.data.access_token as string)
+
       Toast.show({
         type: 'success',
         text1: 'Welcome back! 🎉'
