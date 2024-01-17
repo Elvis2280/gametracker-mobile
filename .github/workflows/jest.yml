@@ -1,7 +1,7 @@
-name: Build
+name: Unit Test
 
 on:
-  push:
+  pull_request:
     branches:
       - main
 
@@ -17,4 +17,4 @@ jobs:
         run: npm ci
 
       - name: Unit test
-        run: npm run test
+        run: npm run test -- -u
