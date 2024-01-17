@@ -5,11 +5,11 @@ import { render } from '@testing-library/react-native'
 
 describe('Home', () => {
   it('renders correctly', () => {
-    const tree = render(
+    const rendered = render(
       <TamaguiConfigWrapper>
         <Home />
       </TamaguiConfigWrapper>
     )
-    expect(tree).toMatchSnapshot()
+    expect(rendered).toMatchSnapshot()
   })
 })

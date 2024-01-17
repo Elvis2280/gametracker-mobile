@@ -9,7 +9,7 @@
     "web": "expo start --web",
     "lint": "eslint src",
     "build": "eas build --platform android",
-    "test": "jest"
+    "test": "jest CI=true"
   },
   "jest": {
     "preset": "jest-expo",
