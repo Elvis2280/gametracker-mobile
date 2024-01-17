@@ -7,3 +7,4 @@
 /components
 /constants
 metro.config.js
+jest.config.js

@@ -1,10 +1,11 @@
 import React, { type ReactElement } from 'react'
-import { Text, View } from 'tamagui'
+import SafeViewStyled from '../../components/SafeViewStyled/SafeViewStyled'
+import { Text } from 'tamagui'
 
 export default function Signup(): ReactElement {
   return (
-    <View>
+    <SafeViewStyled>
       <Text>Signup</Text>
-    </View>
+    </SafeViewStyled>
   )
 }
