@@ -16,8 +16,6 @@
     "htmlWhitespaceSensitivity": "css",
     "vueIndentScriptAndStyle": false,
     "endOfLine": "auto",
-    
-    
     "overrides": [
         {
             "files": ["*.js", "*.jsx"],
@@ -25,7 +23,6 @@
                 "singleQuote": true,
                 "trailingComma": "es5",
                 "spaceBeforeFunctionParen": true
-                
             }
         }
     ]

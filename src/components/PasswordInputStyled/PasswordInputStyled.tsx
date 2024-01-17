@@ -1,6 +1,7 @@
 import React, { useState, type ReactElement } from 'react'
 import { Input, View } from 'tamagui'
 import { Ionicons } from '@expo/vector-icons'
+import { Pressable } from 'react-native'
 
 interface Props {
   onChange: (text: string) => void
@@ -14,12 +15,19 @@ export default function PasswordInputStyled({
   value
 }: Props): ReactElement {
   const [isSecure, setIsSecure] = useState(true)
+  const [textValue, setTextValue] = useState(value)
+
+  const handleOnChange = (text: string): void => {
+    setTextValue(text)
+    onChange(text)
+  }
   return (
     <View position="relative">
       <Input
-        onChangeText={onChange}
+        testID="password-input"
+        onChangeText={handleOnChange}
         onBlur={onBlur}
-        value={value}
+        value={textValue}
         secureTextEntry={isSecure}
         placeholder="Password"
       />
@@ -32,14 +40,18 @@ export default function PasswordInputStyled({
         right={10}
         top={'$2'}
       >
-        <Ionicons
+        <Pressable
+          testID="password-input-toggle"
           onPress={() => {
             setIsSecure(!isSecure)
           }}
-          name={isSecure ? 'eye-off' : 'eye'}
-          size={28}
-          color={'lightgrey'}
-        />
+        >
+          <Ionicons
+            name={isSecure ? 'eye-off' : 'eye'}
+            size={28}
+            color={'lightgrey'}
+          />
+        </Pressable>
       </View>
     </View>
   )

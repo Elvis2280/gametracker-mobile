@@ -5,16 +5,24 @@ import { type loginDataType } from '../types'
 import Toast from 'react-native-toast-message'
 import useSecureStorage from '../../../hooks/useStorage'
 import { storageKeys } from '../../../utils/constants'
+import { useSession } from '../../../contex/SessionContex'
 
 export default function useLogin(): {
   handleLogin: (data: loginDataType) => void
+  handleLogOut: () => void
 } {
-  const { handleSetSecureValue } = useSecureStorage()
+  const { handleDeleteSecureValue } = useSecureStorage()
+  const { handleSetToken } = useSession()
   const { isError, error, mutate, isSuccess, data } = useMutation(
     async (data: loginDataType) => {
       return await axiosIntance.post('/auth/login', data)
     }
   )
+
+  const handleLogOut = (): void => {
+    handleDeleteSecureValue(storageKeys.token)
+    handleSetToken(null)
+  }
 
   useEffect(() => {
     if (isError) {
@@ -30,7 +38,7 @@ export default function useLogin(): {
 
   useEffect(() => {
     if (isSuccess) {
-      handleSetSecureValue(storageKeys.token, data.data.access_token as string)
+      handleSetToken(data.data.access_token as string)
 
       Toast.show({
         type: 'success',
@@ -39,6 +47,7 @@ export default function useLogin(): {
     }
   }, [isSuccess])
   return {
-    handleLogin: mutate
+    handleLogin: mutate,
+    handleLogOut
   }
 }

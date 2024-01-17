@@ -3,6 +3,7 @@ import * as SecureStore from 'expo-secure-store'
 export default function useSecureStorage(): {
   handleSetSecureValue: (key: string, value: string) => Promise<void>
   getSecureStorage: (key: string) => Promise<string | null | undefined>
+  handleDeleteSecureValue: (key: string) => Promise<void>
 } {
   const handleSetSecureValue = async (
     key: string,
@@ -22,8 +23,13 @@ export default function useSecureStorage(): {
       console.log(e)
     }
   }
+
+  const handleDeleteSecureValue = async (key: string): Promise<void> => {
+    await SecureStore.deleteItemAsync(key)
+  }
   return {
     handleSetSecureValue,
-    getSecureStorage
+    getSecureStorage,
+    handleDeleteSecureValue
   }
 }
