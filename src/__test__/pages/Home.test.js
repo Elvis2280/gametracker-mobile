@@ -1,17 +1,15 @@
 import React from 'react'
-import renderer from 'react-test-renderer'
 import Home from '../../pages/home/Home'
 import TamaguiConfigWrapper from '../../utils/TamaguiConfigWrapper'
+import { render } from '@testing-library/react-native'
 
 describe('Home', () => {
   it('renders correctly', () => {
-    const tree = renderer
-      .create(
-        <TamaguiConfigWrapper>
-          <Home />
-        </TamaguiConfigWrapper>
-      )
-      .toJSON()
+    const tree = render(
+      <TamaguiConfigWrapper>
+        <Home />
+      </TamaguiConfigWrapper>
+    )
     expect(tree).toMatchSnapshot()
   })
 })
