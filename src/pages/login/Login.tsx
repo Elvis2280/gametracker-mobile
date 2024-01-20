@@ -4,8 +4,9 @@ import PasswordInputStyled from '../../components/PasswordInputStyled/PasswordIn
 import { YStack, Text, View, Input, Button } from 'tamagui'
 import { useForm, Controller } from 'react-hook-form'
 import useLogin from './hooks/useLogin'
+import { type NotAuthNavigationProps } from './types'
 
-export default function Login(): ReactElement {
+export default function Login(router: NotAuthNavigationProps): ReactElement {
   const { handleLogin } = useLogin()
 
   const {
@@ -79,7 +80,12 @@ export default function Login(): ReactElement {
           <Button onPress={handleSubmit(handleLogin)}>
             <Text>Login</Text>
           </Button>
-          <Button variant="outlined">
+          <Button
+            onPress={() => {
+              router.navigation.navigate('Signup')
+            }}
+            variant="outlined"
+          >
             <Text>Sign up</Text>
           </Button>
         </View>
