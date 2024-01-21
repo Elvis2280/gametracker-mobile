@@ -5,6 +5,7 @@ import { YStack, Text, View, Input, Button } from 'tamagui'
 import { useForm, Controller } from 'react-hook-form'
 import useLogin from './hooks/useLogin'
 import { type NotAuthNavigationProps } from './types'
+import { passwordValidation } from '../../utils/validationspatterns'
 
 export default function Login(router: NotAuthNavigationProps): ReactElement {
   const { handleLogin } = useLogin()
@@ -53,14 +54,19 @@ export default function Login(router: NotAuthNavigationProps): ReactElement {
               name="email"
             />
             <Text color={'$red11'} py={'$2'}>
-              {Boolean(errors.email) && 'This is required.'}
+              {Boolean(errors.email) && errors.email?.message}
             </Text>
             <Controller
               control={control}
               rules={{
                 required: true,
                 minLength: 8,
-                maxLength: 50
+                maxLength: 50,
+                pattern: {
+                  value: passwordValidation,
+                  message:
+                    'Password must have at least 8 characters, one number and one Uppercase letter'
+                }
               }}
               render={({ field: { onChange, onBlur, value } }) => (
                 <PasswordInputStyled
@@ -72,7 +78,7 @@ export default function Login(router: NotAuthNavigationProps): ReactElement {
               name="password"
             />
             <Text color={'$red11'} py={'$2'}>
-              {Boolean(errors.email) && 'This is required.'}
+              {Boolean(errors.email) && errors.password?.message}
             </Text>
           </YStack>
         </View>
