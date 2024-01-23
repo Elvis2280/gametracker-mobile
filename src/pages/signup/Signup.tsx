@@ -7,8 +7,9 @@ import {
   emailValidation,
   passwordValidation
 } from '../../utils/validationspatterns'
+import type { NotAuthNavigationProps } from '../login/types'
 
-export default function Signup(): ReactElement {
+export default function Signup(router: NotAuthNavigationProps): ReactElement {
   // Hook form settings
   const {
     control,
@@ -115,7 +116,9 @@ export default function Signup(): ReactElement {
           <Button onPress={handleSubmit(() => {})}>
             <Text>Sign up</Text>
           </Button>
-          <Button variant="outlined">
+          <Button onPress={() => {
+            router.navigation.navigate('Login')
+          }} variant="outlined">
             <Text>Go to Login</Text>
           </Button>
         </YStack>
