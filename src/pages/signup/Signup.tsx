@@ -1,15 +1,13 @@
-import React, { type ReactElement } from 'react'
+import React, { type ReactElement, useEffect } from 'react'
 import SafeViewStyled from '../../components/SafeViewStyled/SafeViewStyled'
 import { Button, Input, Text, View, YStack } from 'tamagui'
 import PasswordInputStyled from '../../components/PasswordInputStyled/PasswordInputStyled'
 import { Controller, useForm } from 'react-hook-form'
-import {
-  emailValidation,
-  passwordValidation
-} from '../../utils/validationspatterns'
 import type { NotAuthNavigationProps } from '../login/types'
+import { useSignUp } from './hooks/UseSignUp'
 
 export default function Signup(router: NotAuthNavigationProps): ReactElement {
+  const { signupHandler, isSuccess, isLoading } = useSignUp()
   // Hook form settings
   const {
     control,
@@ -17,11 +15,17 @@ export default function Signup(router: NotAuthNavigationProps): ReactElement {
     formState: { errors }
   } = useForm({
     defaultValues: {
-      name: '',
+      username: '',
       email: '',
       password: ''
     }
   })
+
+  useEffect(() => {
+    if (isSuccess) {
+      router.navigation.navigate('Login')
+    }
+  }, [isSuccess])
 
   return (
     <SafeViewStyled>
@@ -45,7 +49,9 @@ export default function Signup(router: NotAuthNavigationProps): ReactElement {
               control={control}
               rules={{
                 required: true,
-                maxLength: 50
+                maxLength: 50,
+                minLength: 3
+
               }}
               render={({ field: { onChange, onBlur, value } }) => (
                 <Input
@@ -55,21 +61,18 @@ export default function Signup(router: NotAuthNavigationProps): ReactElement {
                   value={value}
                 />
               )}
-              name="name"
+              name="username"
             />
             <Text color={'$red11'} py={'$2'}>
-              {Boolean(errors.email) && errors.name?.message}
+              {Boolean(errors.email) && 'Name is required'}
             </Text>
 
             <Controller
               control={control}
               rules={{
                 required: true,
-                maxLength: 50,
-                pattern: {
-                  value: emailValidation,
-                  message: 'Please enter a valid email'
-                }
+                maxLength: 50
+
               }}
               render={({ field: { onChange, onBlur, value } }) => (
                 <Input
@@ -82,7 +85,7 @@ export default function Signup(router: NotAuthNavigationProps): ReactElement {
               name="email"
             />
             <Text color={'$red11'} py={'$2'}>
-              {Boolean(errors.email) && errors.email?.message}
+              {Boolean(errors.email) && 'Email is required'}
             </Text>
 
             <Controller
@@ -90,12 +93,8 @@ export default function Signup(router: NotAuthNavigationProps): ReactElement {
               rules={{
                 required: true,
                 maxLength: 50,
-                minLength: 8,
-                pattern: {
-                  value: passwordValidation,
-                  message:
-                    'Password must contain at least 1 uppercase and 1 number character'
-                }
+                minLength: 8
+
               }}
               render={({ field: { onChange, onBlur, value } }) => (
                 <PasswordInputStyled
@@ -107,16 +106,16 @@ export default function Signup(router: NotAuthNavigationProps): ReactElement {
               name="password"
             />
             <Text color={'$red11'} py={'$2'}>
-              {Boolean(errors.email) && errors.password?.message}
+              {Boolean(errors.email) && 'Password is required'}
             </Text>
           </YStack>
         </View>
         {/* Footer Buttons */}
         <YStack space={'$4'}>
-          <Button onPress={handleSubmit(() => {})}>
+          <Button disabled={isLoading} onPress={handleSubmit(signupHandler)}>
             <Text>Sign up</Text>
           </Button>
-          <Button onPress={() => {
+          <Button disabled={isLoading} onPress={() => {
             router.navigation.navigate('Login')
           }} variant="outlined">
             <Text>Go to Login</Text>
