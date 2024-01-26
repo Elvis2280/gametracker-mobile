@@ -18,17 +18,19 @@ interface ContextType {
   isLogged: boolean
   token: string | null
   handleSetToken: (token: string | null) => void
+  handleSetUser: (user: userType | null) => void
 }
 
 const SessionContext = createContext<ContextType>({
   user: null,
   isLogged: true,
   token: null,
-  handleSetToken: () => {}
+  handleSetToken: () => {},
+  handleSetUser: () => {}
 })
 
 export default function SessionContex({ children }: Props): ReactElement {
-  const [user] = useState<userType | null>(null)
+  const [user, setUser] = useState<userType | null>(null)
   const [logged, setLogged] = useState<boolean>(false)
   const [token, setToken] = useState<string | null>(null)
   const { handleSetSecureValue, getSecureStorage } = useSecureStorage()
@@ -40,10 +42,18 @@ export default function SessionContex({ children }: Props): ReactElement {
     }
   }
 
+  const handleSetUser = async (user: userType | null): Promise<void> => {
+    if (user) {
+      handleSetSecureValue(storageKeys.user, JSON.stringify(user))
+    }
+  }
+
   const tryLogin = async (): Promise<void> => {
     const token = await getSecureStorage(storageKeys.token)
-    if (token) {
+    const user = await getSecureStorage(storageKeys.user)
+    if (token && user) {
       setToken(token)
+      setUser(JSON.parse(user) as userType)
     }
   }
 
@@ -61,7 +71,7 @@ export default function SessionContex({ children }: Props): ReactElement {
 
   return (
     <SessionContext.Provider
-      value={{ user, isLogged: logged, token, handleSetToken }}
+      value={{ user, isLogged: logged, token, handleSetToken, handleSetUser }}
     >
       {children}
     </SessionContext.Provider>

@@ -1,5 +1,10 @@
 export interface userType {
-  id: string
   email: string
-  name: string
+  username: string
+}
+
+export interface userSignUpDataType {
+  email: string
+  password: string
+  username: string
 }
