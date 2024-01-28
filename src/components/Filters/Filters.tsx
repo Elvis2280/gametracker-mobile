@@ -5,9 +5,7 @@ import { Ionicons } from '@expo/vector-icons'
 const Filters = (): ReactElement => {
   return (
     <View>
-      <Button
-        icon={<Ionicons name={'filter'} size={24} color={'lightgrey'} />}
-      />
+      <Button icon={<Ionicons name={'filter'} size={24} color={'white'} />} />
     </View>
   )
 }

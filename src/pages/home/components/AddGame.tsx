@@ -7,6 +7,7 @@ import {
   TextArea,
   Unspaced,
   View,
+  XStack,
   YStack
 } from 'tamagui'
 import React, { type ReactElement } from 'react'
@@ -14,11 +15,16 @@ import { Ionicons } from '@expo/vector-icons'
 import SearchBar from '../../../components/SearchBar/SearchBar'
 
 export const AddGame = (): ReactElement => {
+  const [open, setOpen] = React.useState(false)
   return (
     <View>
-      <Dialog modal>
+      <Dialog modal open={open}>
         <Dialog.Trigger asChild>
-          <Button>
+          <Button
+            onPress={() => {
+              setOpen(true)
+            }}
+          >
             <Text fontSize={'$6'} fontWeight={'bold'}>
               Add Game
             </Text>
@@ -55,6 +61,9 @@ export const AddGame = (): ReactElement => {
             <Unspaced key={'close'}>
               <Dialog.Close asChild>
                 <Button
+                  onPress={() => {
+                    setOpen(false)
+                  }}
                   position="absolute"
                   top="$2"
                   right="$2"
@@ -67,6 +76,25 @@ export const AddGame = (): ReactElement => {
                 />
               </Dialog.Close>
             </Unspaced>
+
+            {/* Footer */}
+            <XStack marginTop={'$4'} justifyContent={'space-between'}>
+              <Button
+                variant={'outlined'}
+                onPress={() => {
+                  setOpen(false)
+                }}
+              >
+                <Text fontSize={'$6'} fontWeight={'bold'}>
+                  Cancel
+                </Text>
+              </Button>
+              <Button onPress={() => {}}>
+                <Text fontSize={'$6'} fontWeight={'bold'}>
+                  Save Game
+                </Text>
+              </Button>
+            </XStack>
           </Dialog.Content>
         </Dialog.Portal>
       </Dialog>

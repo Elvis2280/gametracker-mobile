@@ -14,27 +14,52 @@ export default function Home(): ReactElement {
   console.log(user)
   return (
     <SafeViewStyled>
-      <YStack height='100%' marginHorizontal={'$4'}>
+      <YStack height="100%" marginHorizontal={'$4'}>
         {/* Header */}
-       <XStack alignItems={'center'} height={'$4'} >
-         <Text flex={1} fontSize={'$8'} fontWeight={'bold'} textAlign={'center'} >Gametracker</Text>
-          <Avatar position={'absolute'} right={0} onPress={handleLogOut} circular backgroundColor={'$blue4'}>
-            <Text fontSize={'$6'} fontWeight={'bold'}>{user?.username.charAt(0)}</Text>
+        <XStack marginTop={'$2'} alignItems={'center'} height={'$4'}>
+          <Text
+            flex={1}
+            fontSize={'$8'}
+            fontWeight={'bold'}
+            textAlign={'center'}
+          >
+            Gametracker
+          </Text>
+          <Avatar
+            position={'absolute'}
+            right={0}
+            onPress={handleLogOut}
+            circular
+            backgroundColor={'$blue4'}
+          >
+            <Text fontSize={'$6'} fontWeight={'bold'}>
+              {user?.username.charAt(0)}
+            </Text>
           </Avatar>
-       </XStack>
+        </XStack>
         {/* body */}
-        <View position={'relative'} flex={1} marginTop={'$6'} paddingBottom={'$2'}>
+        <View
+          position={'relative'}
+          flex={1}
+          marginTop={'$6'}
+          paddingBottom={'$2'}
+        >
           {/* search Section */}
           <XStack space={'$4'}>
-           <View flex={1}>
-             <SearchBar handleSearch={() => {}} placeholder={'Search in your game list'} />
-           </View>
+            <View flex={1}>
+              <SearchBar
+                handleSearch={() => {}}
+                placeholder={'Search in your game list'}
+              />
+            </View>
             <Filters />
           </XStack>
 
           {/* Games Cards */}
           <View marginTop={'$4'}>
-            <Text fontSize={'$6'} fontWeight={'bold'} paddingBottom={'$2'}>Games List</Text>
+            <Text fontSize={'$6'} fontWeight={'bold'} paddingBottom={'$2'}>
+              Games List
+            </Text>
             <GameCard />
           </View>
 
