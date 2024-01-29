@@ -1,12 +1,15 @@
 import { type userSignUpDataType } from '../../../types/user'
-import {useMutation} from 'react-query'
+import { useMutation } from 'react-query'
 import { useEffect } from 'react'
 import Toast from 'react-native-toast-message'
 import axiosIntance from '../../../utils/axioInstance'
+
 export const useSignUp = (): signUpHookTypes => {
-  const { isError, isLoading, mutate, isSuccess } = useMutation(async (data: userSignUpDataType) => {
-    return await axiosIntance.post('/api/signup', data)
-  })
+  const { isError, isLoading, mutate, isSuccess } = useMutation(
+    async (data: userSignUpDataType) => {
+      return await axiosIntance.post('/signup', data)
+    }
+  )
 
   useEffect(() => {
     if (isError) {
@@ -26,13 +29,11 @@ export const useSignUp = (): signUpHookTypes => {
       })
     }
   }, [isError, isSuccess])
-  return (
-    {
-      signupHandler: mutate,
-      isLoading,
-      isSuccess
-    }
-  )
+  return {
+    signupHandler: mutate,
+    isLoading,
+    isSuccess
+  }
 }
 
 interface signUpHookTypes {

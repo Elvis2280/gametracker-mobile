@@ -6,10 +6,14 @@ interface Props {
   handleSearch: (searchText: string) => void
 }
 
-const SearchBar = ({ placeholder }: Props): ReactElement => {
+const SearchBar = ({ placeholder, handleSearch }: Props): ReactElement => {
   return (
     <View>
-      <Input placeholder={placeholder} width={'100%'} />
+      <Input
+        onChangeText={handleSearch}
+        placeholder={placeholder}
+        width={'100%'}
+      />
     </View>
   )
 }

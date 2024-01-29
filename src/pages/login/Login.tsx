@@ -1,8 +1,8 @@
 import SafeViewStyled from '../../components/SafeViewStyled/SafeViewStyled'
 import React, { type ReactElement } from 'react'
 import PasswordInputStyled from '../../components/PasswordInputStyled/PasswordInputStyled'
-import { YStack, Text, View, Input, Button } from 'tamagui'
-import { useForm, Controller } from 'react-hook-form'
+import { Button, Input, Text, View, YStack } from 'tamagui'
+import { Controller, useForm } from 'react-hook-form'
 import useLogin from './hooks/useLogin'
 import { type NotAuthNavigationProps } from './types'
 // import { passwordValidation } from '../../utils/validationspatterns'
@@ -66,7 +66,7 @@ export default function Login(router: NotAuthNavigationProps): ReactElement {
                 //   value: passwordValidation,
                 //   message:
                 //     'Password must have at least 8 characters, one number and one Uppercase letter'
-                // }
+                // } FIXME: add password validation
               }}
               render={({ field: { onChange, onBlur, value } }) => (
                 <PasswordInputStyled

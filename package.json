@@ -25,10 +25,12 @@
     "@react-navigation/native-stack": "^6.9.17",
     "@tamagui/babel-plugin": "^1.84.2",
     "@tamagui/config": "^1.84.2",
+    "@uidotdev/usehooks": "^2.4.1",
     "axios": "^1.6.5",
     "babel-plugin-transform-inline-environment-variables": "^0.4.4",
     "base-64": "^1.0.0",
     "expo": "~49.0.15",
+    "expo-linear-gradient": "~12.3.0",
     "expo-screen-orientation": "~6.0.6",
     "expo-secure-store": "~12.3.1",
     "expo-splash-screen": "~0.20.5",
@@ -48,8 +50,7 @@
     "react-native-vector-icons": "^10.0.2",
     "react-query": "^3.39.3",
     "tamagui": "^1.84.2",
-    "zod": "^3.22.4",
-    "expo-linear-gradient": "~12.3.0"
+    "zod": "^3.22.4"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
