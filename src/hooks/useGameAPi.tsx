@@ -13,7 +13,8 @@ const useGameAPi = (): customHooksProps => {
     data: gamesResultData,
     isLoading,
     isSuccess,
-    mutate
+    mutate,
+    reset
   } = useMutation(async (searchKey: string) => {
     return await handleSearchGameByName(searchKey)
   })
@@ -26,6 +27,11 @@ const useGameAPi = (): customHooksProps => {
       }
     })
     return response.data
+  }
+
+  const resetGamesData = () => {
+    setGames([])
+    reset()
   }
 
   useEffect(() => {
@@ -41,10 +47,15 @@ const useGameAPi = (): customHooksProps => {
       setGames(gamesFormatted)
     }
   }, [gamesResultData])
+
+  const isReadyToRender = isSuccess || isLoading
+
   return {
     handleSearchGameByName: mutate,
     isLoading,
-    games
+    games,
+    isReadyToRender,
+    resetGamesData
   }
 }
 
@@ -52,6 +63,8 @@ interface customHooksProps {
   handleSearchGameByName: (searchText: string) => void
   isLoading: boolean
   games: gameFormattedData[] | []
+  isReadyToRender?: boolean
+  resetGamesData?: () => void
 }
 
 export default useGameAPi
