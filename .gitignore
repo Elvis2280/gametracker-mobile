@@ -43,4 +43,3 @@ envirement variables
 .env.local
 .env.development
 .env.development.local
-!/.env

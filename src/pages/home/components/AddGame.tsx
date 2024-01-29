@@ -3,11 +3,15 @@ import {
   Dialog,
   Form,
   Input,
+  ScrollView,
+  Separator,
+  Spinner,
   Text,
   TextArea,
   Unspaced,
   View,
   XStack,
+  YGroup,
   YStack
 } from 'tamagui'
 import React, { type ReactElement } from 'react'
@@ -17,9 +21,20 @@ import useGameAPi from '../../../hooks/useGameAPi'
 
 export const AddGame = (): ReactElement => {
   const [open, setOpen] = React.useState(false)
-  const { handleSearchGameByName, games } = useGameAPi()
+  const {
+    handleSearchGameByName,
+    games,
+    isLoading,
+    isReadyToRender,
+    resetGamesData
+  } = useGameAPi()
 
-  console.log(games)
+  const handleClose = (): void => {
+    setOpen(false)
+    if (resetGamesData) {
+      resetGamesData()
+    }
+  }
   return (
     <View>
       <Dialog modal open={open}>
@@ -49,13 +64,51 @@ export const AddGame = (): ReactElement => {
                 Search and add your favorite game to your list
               </Text>
             </Dialog.Description>
-            <View marginTop={'$4'}>
+            <View marginTop={'$4'} position={'relative'}>
               <SearchBar
                 placeholder={'Search game'}
                 handleSearch={handleSearchGameByName}
               />
+              <View
+                display={isReadyToRender ? 'flex' : 'none'}
+                top={'100%'}
+                maxHeight={200}
+                backgroundColor={'$blue4'}
+                width={'100%'}
+                position={'absolute'}
+                marginTop={'$2'}
+                borderRadius={'$2'}
+                justifyContent={'center'}
+                alignItems={'center'}
+                padding={'$4'}
+              >
+                {isLoading
+                  ? (
+                  <Spinner color={'$blue12'} />
+                    )
+                  : (
+                  <ScrollView width={'100%'}>
+                    <YGroup separator={<Separator borderColor={'$blue6'} />}>
+                      {games.map((game, index) => {
+                        return (
+                          <YGroup.Item key={index}>
+                            <Text fontSize={'$5'} paddingVertical={'$2'}>
+                              {game.name}
+                            </Text>
+                          </YGroup.Item>
+                        )
+                      })}
+                    </YGroup>
+                  </ScrollView>
+                    )}
+              </View>
             </View>
-            <Form marginTop={'$6'} onSubmit={() => {}}>
+            <Form
+              marginTop={'$6'}
+              onSubmit={() => {}}
+              position={'relative'}
+              zIndex={-20}
+            >
               <YStack space={'$2'}>
                 <Text>Name</Text>
                 <Input />
@@ -68,9 +121,7 @@ export const AddGame = (): ReactElement => {
             <Unspaced key={'close'}>
               <Dialog.Close asChild>
                 <Button
-                  onPress={() => {
-                    setOpen(false)
-                  }}
+                  onPress={handleClose}
                   position="absolute"
                   top="$2"
                   right="$2"
@@ -86,12 +137,7 @@ export const AddGame = (): ReactElement => {
 
             {/* Footer */}
             <XStack marginTop={'$4'} justifyContent={'space-between'}>
-              <Button
-                variant={'outlined'}
-                onPress={() => {
-                  setOpen(false)
-                }}
-              >
+              <Button variant={'outlined'} onPress={handleClose}>
                 <Text fontSize={'$6'} fontWeight={'bold'}>
                   Cancel
                 </Text>
