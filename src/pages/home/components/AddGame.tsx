@@ -13,9 +13,11 @@ import {
 import React, { type ReactElement } from 'react'
 import { Ionicons } from '@expo/vector-icons'
 import SearchBar from '../../../components/SearchBar/SearchBar'
+import useGameAPi from '../../../hooks/useGameAPi'
 
 export const AddGame = (): ReactElement => {
   const [open, setOpen] = React.useState(false)
+  const { handleSearchGameByName } = useGameAPi()
   return (
     <View>
       <Dialog modal open={open}>
@@ -46,7 +48,10 @@ export const AddGame = (): ReactElement => {
               </Text>
             </Dialog.Description>
             <View marginTop={'$4'}>
-              <SearchBar placeholder={'Search game'} handleSearch={() => {}} />
+              <SearchBar
+                placeholder={'Search game'}
+                handleSearch={handleSearchGameByName}
+              />
             </View>
             <Form marginTop={'$6'} onSubmit={() => {}}>
               <YStack space={'$2'}>
