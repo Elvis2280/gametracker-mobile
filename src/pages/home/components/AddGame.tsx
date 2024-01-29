@@ -17,7 +17,9 @@ import useGameAPi from '../../../hooks/useGameAPi'
 
 export const AddGame = (): ReactElement => {
   const [open, setOpen] = React.useState(false)
-  const { handleSearchGameByName } = useGameAPi()
+  const { handleSearchGameByName, games } = useGameAPi()
+
+  console.log(games)
   return (
     <View>
       <Dialog modal open={open}>
