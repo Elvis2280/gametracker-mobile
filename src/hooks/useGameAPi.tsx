@@ -29,7 +29,7 @@ const useGameAPi = (): customHooksProps => {
     return response.data
   }
 
-  const resetGamesData = () => {
+  const resetGamesData = (): void => {
     setGames([])
     reset()
   }
