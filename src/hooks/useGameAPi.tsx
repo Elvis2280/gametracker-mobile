@@ -8,6 +8,11 @@ import { useMutation } from 'react-query'
 
 const useGameAPi = (): customHooksProps => {
   const [games, setGames] = useState<gameFormattedData[] | []>([])
+  const [selectedGame, setSelectedGame] = useState<gameFormattedData | null>(
+    null
+  )
+
+  console.log(selectedGame)
 
   const {
     data: gamesResultData,
@@ -15,9 +20,19 @@ const useGameAPi = (): customHooksProps => {
     isSuccess,
     mutate,
     reset
-  } = useMutation(async (searchKey: string) => {
-    return await handleSearchGameByName(searchKey)
-  })
+  } = useMutation(
+    'games',
+    async (searchKey: string) => {
+      if (searchKey.length > 2) return await handleSearchGameByName(searchKey)
+    },
+    {
+      onMutate: async (searchString: string) => {
+        if (searchString.length < 3) {
+          resetGamesData()
+        }
+      }
+    }
+  )
   const handleSearchGameByName = async (
     searchText: string
   ): Promise<GamesResultsData> => {
@@ -38,24 +53,36 @@ const useGameAPi = (): customHooksProps => {
     if (isSuccess) {
       const gamesFormatted = gamesResultData?.results.map((game) => {
         return {
+          id: game.id,
           name: game.name,
           image: game.background_image,
           score: game.metacritic
         }
       })
 
-      setGames(gamesFormatted)
+      gamesFormatted ? setGames(gamesFormatted) : setGames([])
     }
   }, [gamesResultData])
 
-  const isReadyToRender = isSuccess || isLoading
+  const handleSelectGame = (id: number): void => {
+    const selectedGame = games.find((game) => game.id === id)
+    if (selectedGame) {
+      setSelectedGame(selectedGame)
+    } else {
+      setSelectedGame(null)
+    }
+  }
+
+  const isReadyToRender = (isSuccess || isLoading) && !selectedGame
 
   return {
     handleSearchGameByName: mutate,
     isLoading,
     games,
     isReadyToRender,
-    resetGamesData
+    resetGamesData,
+    handleSelectGame,
+    selectedGame
   }
 }
 
@@ -63,8 +90,10 @@ interface customHooksProps {
   handleSearchGameByName: (searchText: string) => void
   isLoading: boolean
   games: gameFormattedData[] | []
-  isReadyToRender?: boolean
-  resetGamesData?: () => void
+  isReadyToRender: boolean
+  resetGamesData: () => void
+  handleSelectGame: (id: number) => void
+  selectedGame?: gameFormattedData | null
 }
 
 export default useGameAPi

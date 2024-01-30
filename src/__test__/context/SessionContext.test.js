@@ -1,14 +1,14 @@
 import React from 'react'
-import { render, fireEvent } from '@testing-library/react-native'
-import SessionContex from '../../contex/SessionContex'
+import { fireEvent, render } from '@testing-library/react-native'
+import SessionContext from '../../contex/SessionContext'
 import TestSessionContext from '../testcomponents/TestSessionContext'
 
 describe('SessionContext', () => {
   it('render with default value', () => {
     const { getByTestId } = render(
-      <SessionContex>
+      <SessionContext>
         <TestSessionContext />
-      </SessionContex>
+      </SessionContext>
     )
 
     const isLogged = getByTestId('isLoggedTest')
@@ -21,9 +21,9 @@ describe('SessionContext', () => {
 
   it('render with values when user log in', () => {
     const { getByTestId } = render(
-      <SessionContex>
+      <SessionContext>
         <TestSessionContext />
-      </SessionContex>
+      </SessionContext>
     )
 
     const btnSetToken = getByTestId('setToken')

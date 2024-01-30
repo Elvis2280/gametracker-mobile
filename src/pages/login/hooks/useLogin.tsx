@@ -5,7 +5,7 @@ import { type loginDataType } from '../types'
 import Toast from 'react-native-toast-message'
 import useSecureStorage from '../../../hooks/useStorage'
 import { storageKeys } from '../../../utils/constants'
-import { useSession } from '../../../contex/SessionContex'
+import { useSession } from '../../../contex/SessionContext'
 import { type userType } from '../../../types/user'
 
 export default function useLogin(): {

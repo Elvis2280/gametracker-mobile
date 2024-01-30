@@ -3,21 +3,18 @@ import {
   Dialog,
   Form,
   Input,
-  ScrollView,
-  Separator,
-  Spinner,
   Text,
   TextArea,
   Unspaced,
   View,
   XStack,
-  YGroup,
   YStack
 } from 'tamagui'
-import React, { type ReactElement } from 'react'
+import React, { type ReactElement, useEffect } from 'react'
 import { Ionicons } from '@expo/vector-icons'
-import SearchBar from '../../../components/SearchBar/SearchBar'
 import useGameAPi from '../../../hooks/useGameAPi'
+import { Controller, useForm } from 'react-hook-form'
+import SearchBarWithItems from './SearchBarWithItems'
 
 export const AddGame = (): ReactElement => {
   const [open, setOpen] = React.useState(false)
@@ -26,15 +23,34 @@ export const AddGame = (): ReactElement => {
     games,
     isLoading,
     isReadyToRender,
-    resetGamesData
+    resetGamesData,
+    handleSelectGame,
+    selectedGame
   } = useGameAPi()
+
+  const { control, setValue, reset } = useForm({
+    defaultValues: {
+      name: selectedGame?.name,
+      description: '',
+      image: selectedGame?.image
+    }
+  }) // TODO: add handler submit and errors to form
 
   const handleClose = (): void => {
     setOpen(false)
     if (resetGamesData) {
       resetGamesData()
+      reset()
     }
   }
+
+  useEffect(() => {
+    if (selectedGame) {
+      setValue('name', selectedGame.name)
+      setValue('image', selectedGame.image)
+    }
+  }, [selectedGame])
+
   return (
     <View>
       <Dialog modal open={open}>
@@ -65,43 +81,14 @@ export const AddGame = (): ReactElement => {
               </Text>
             </Dialog.Description>
             <View marginTop={'$4'} position={'relative'}>
-              <SearchBar
-                placeholder={'Search game'}
-                handleSearch={handleSearchGameByName}
+              {/* search game  */}
+              <SearchBarWithItems
+                isLoading={isLoading}
+                isReadyToRender={isReadyToRender}
+                games={games}
+                handleSelectGame={handleSelectGame}
+                handleSearchGameByName={handleSearchGameByName}
               />
-              <View
-                display={isReadyToRender ? 'flex' : 'none'}
-                top={'100%'}
-                maxHeight={200}
-                backgroundColor={'$blue4'}
-                width={'100%'}
-                position={'absolute'}
-                marginTop={'$2'}
-                borderRadius={'$2'}
-                justifyContent={'center'}
-                alignItems={'center'}
-                padding={'$4'}
-              >
-                {isLoading
-                  ? (
-                  <Spinner color={'$blue12'} />
-                    )
-                  : (
-                  <ScrollView width={'100%'}>
-                    <YGroup separator={<Separator borderColor={'$blue6'} />}>
-                      {games.map((game, index) => {
-                        return (
-                          <YGroup.Item key={index}>
-                            <Text fontSize={'$5'} paddingVertical={'$2'}>
-                              {game.name}
-                            </Text>
-                          </YGroup.Item>
-                        )
-                      })}
-                    </YGroup>
-                  </ScrollView>
-                    )}
-              </View>
             </View>
             <Form
               marginTop={'$6'}
@@ -111,10 +98,40 @@ export const AddGame = (): ReactElement => {
             >
               <YStack space={'$2'}>
                 <Text>Name</Text>
-                <Input />
-                <Input display={'none'} />
+                <Controller
+                  control={control}
+                  rules={{
+                    required: true,
+                    maxLength: 50
+                  }}
+                  render={({ field: { onChange, onBlur, value } }) => (
+                    <Input
+                      onChangeText={onChange}
+                      onBlur={onBlur}
+                      value={value}
+                    />
+                  )}
+                  name="name"
+                />
+
+                <Input display={'none'} value={selectedGame?.image} />
                 <Text>Description</Text>
-                <TextArea size={'$4'} />
+                <Controller
+                  control={control}
+                  rules={{
+                    required: true,
+                    maxLength: 50
+                  }}
+                  render={({ field: { onChange, onBlur, value } }) => (
+                    <TextArea
+                      onChangeText={onChange}
+                      onBlur={onBlur}
+                      value={value}
+                      height={80}
+                    />
+                  )}
+                  name="description"
+                />
               </YStack>
             </Form>
 

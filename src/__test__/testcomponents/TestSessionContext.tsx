@@ -1,6 +1,6 @@
 import React, { type ReactElement } from 'react'
-import { View, Text, Pressable } from 'react-native'
-import { useSession } from '../../contex/SessionContex'
+import { Pressable, Text, View } from 'react-native'
+import { useSession } from '../../contex/SessionContext'
 
 export default function TestSessionContext(): ReactElement {
   const { isLogged, user, token, handleSetToken } = useSession()

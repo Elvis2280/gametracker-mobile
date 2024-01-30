@@ -2,7 +2,7 @@ import React, { type ReactElement } from 'react'
 import SafeViewStyled from '../../components/SafeViewStyled/SafeViewStyled'
 import { Avatar, Text, View, XStack, YStack } from 'tamagui'
 import useLogin from '../login/hooks/useLogin'
-import { useSession } from '../../contex/SessionContex'
+import { useSession } from '../../contex/SessionContext'
 import SearchBar from '../../components/SearchBar/SearchBar'
 import Filters from '../../components/Filters/Filters'
 import { GameCard } from '../../components/GameCard/GameCard'
@@ -11,7 +11,7 @@ import AddGame from './components/AddGame'
 export default function Home(): ReactElement {
   const { handleLogOut } = useLogin()
   const { user } = useSession()
-  console.log(user)
+
   return (
     <SafeViewStyled>
       <YStack height="100%" marginHorizontal={'$4'}>

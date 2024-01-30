@@ -51,6 +51,7 @@ export interface OneGameResponse {
 }
 
 export interface gameFormattedData {
+  id: number
   name: string
   image: string
   score: number

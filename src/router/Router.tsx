@@ -3,7 +3,7 @@ import Login from '../pages/login/Login'
 import Signup from '../pages/signup/Signup'
 import Home from '../pages/home/Home'
 import { NavigationContainer } from '@react-navigation/native'
-import { useSession } from '../contex/SessionContex'
+import { useSession } from '../contex/SessionContext'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
 // eslint-disable-next-line
