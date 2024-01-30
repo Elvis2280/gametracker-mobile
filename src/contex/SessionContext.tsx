@@ -1,9 +1,9 @@
 import React, {
   createContext,
-  useState,
   type ReactElement,
+  useContext,
   useEffect,
-  useContext
+  useState
 } from 'react'
 import useSecureStorage from '../../src/hooks/useStorage'
 import { storageKeys } from '../utils/constants'
@@ -29,7 +29,7 @@ const SessionContext = createContext<ContextType>({
   handleSetUser: () => {}
 })
 
-export default function SessionContex({ children }: Props): ReactElement {
+export default function SessionContextHook({ children }: Props): ReactElement {
   const [user, setUser] = useState<userType | null>(null)
   const [logged, setLogged] = useState<boolean>(false)
   const [token, setToken] = useState<string | null>(null)
@@ -71,7 +71,13 @@ export default function SessionContex({ children }: Props): ReactElement {
 
   return (
     <SessionContext.Provider
-      value={{ user, isLogged: logged, token, handleSetToken, handleSetUser }}
+      value={{
+        user,
+        isLogged: logged,
+        token,
+        handleSetToken,
+        handleSetUser
+      }}
     >
       {children}
     </SessionContext.Provider>

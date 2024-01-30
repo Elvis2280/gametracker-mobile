@@ -1,5 +1,6 @@
 import { Input, View } from 'tamagui'
-import React, { type ReactElement } from 'react'
+import React, { type ReactElement, useEffect, useState } from 'react'
+import { useDebounce } from '../../hooks/useDebounce'
 
 interface Props {
   placeholder?: string
@@ -7,10 +8,19 @@ interface Props {
 }
 
 const SearchBar = ({ placeholder, handleSearch }: Props): ReactElement => {
+  const [searchText, setSearchText] = useState('')
+  const { debounceValue } = useDebounce(searchText, 500)
+
+  useEffect(() => {
+    if (debounceValue) {
+      handleSearch(debounceValue)
+    }
+  }, [debounceValue])
   return (
     <View>
       <Input
-        onChangeText={handleSearch}
+        value={searchText}
+        onChangeText={setSearchText}
         placeholder={placeholder}
         width={'100%'}
       />
