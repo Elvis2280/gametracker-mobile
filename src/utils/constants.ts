@@ -21,3 +21,9 @@ export const platoformsIcons = {
   playstation: 'playstation',
   steamdeck: 'steam'
 }
+
+export const gameStatus = {
+  notStarted: 'notstarted',
+  inProgress: 'inprogress',
+  completed: 'completed'
+}
