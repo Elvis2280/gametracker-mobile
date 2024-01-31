@@ -3,6 +3,7 @@ import {
   Dialog,
   Form,
   Input,
+  RadioGroup,
   Text,
   TextArea,
   Unspaced,
@@ -15,6 +16,8 @@ import { Ionicons } from '@expo/vector-icons'
 import useGameAPi from '../../../hooks/useGameAPi'
 import { Controller, useForm } from 'react-hook-form'
 import SearchBarWithItems from './SearchBarWithItems'
+import { gameStatus } from '../../../utils/constants'
+import { RadiogroupWithLabel } from '../../../components/RadiogroupWithLabel/RadiogroupWithLabel'
 
 export const AddGame = (): ReactElement => {
   const [open, setOpen] = React.useState(false)
@@ -97,6 +100,7 @@ export const AddGame = (): ReactElement => {
               zIndex={-20}
             >
               <YStack space={'$2'}>
+                {/* Add game fields */}
                 <Text>Name</Text>
                 <Controller
                   control={control}
@@ -132,6 +136,23 @@ export const AddGame = (): ReactElement => {
                   )}
                   name="description"
                 />
+                <YStack marginTop={'$4'}>
+                  <Text>Status</Text>
+                  <RadioGroup value={gameStatus.notStarted}>
+                    <RadiogroupWithLabel
+                      label={'Not Started'}
+                      value={gameStatus.notStarted}
+                    />
+                    <RadiogroupWithLabel
+                      label={'In Progress'}
+                      value={gameStatus.inProgress}
+                    />
+                    <RadiogroupWithLabel
+                      label={'Completed'}
+                      value={gameStatus.completed}
+                    />
+                  </RadioGroup>
+                </YStack>
               </YStack>
             </Form>
 
