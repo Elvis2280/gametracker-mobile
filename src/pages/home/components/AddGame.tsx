@@ -16,8 +16,9 @@ import { Ionicons } from '@expo/vector-icons'
 import useGameAPi from '../../../hooks/useGameAPi'
 import { Controller, useForm } from 'react-hook-form'
 import SearchBarWithItems from './SearchBarWithItems'
-import { gameStatus } from '../../../utils/constants'
+import { gameStatus, platoformsOptions } from '../../../utils/constants'
 import { RadiogroupWithLabel } from '../../../components/RadiogroupWithLabel/RadiogroupWithLabel'
+import { Multiselect } from '../../../components/CheckboxWithLabel/Multiselect'
 
 export const AddGame = (): ReactElement => {
   const [open, setOpen] = React.useState(false)
@@ -154,6 +155,12 @@ export const AddGame = (): ReactElement => {
                   </RadioGroup>
                 </YStack>
               </YStack>
+              <View>
+                <Multiselect
+                  label={'Select your platforms'}
+                  options={platoformsOptions}
+                />
+              </View>
             </Form>
 
             <Unspaced key={'close'}>
