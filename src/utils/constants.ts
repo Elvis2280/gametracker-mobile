@@ -22,6 +22,20 @@ export const platoformsIcons = {
   steamdeck: 'steam'
 }
 
+export const platoformsOptions = [
+  {
+    label: 'Xbox',
+    value: 'xbox'
+  },
+  {
+    label: 'PlayStation',
+    value: 'playstation'
+  },
+  {
+    label: 'Steam Deck',
+    value: 'steamdeck'
+  }
+]
 export const gameStatus = {
   notStarted: 'notstarted',
   inProgress: 'inprogress',
