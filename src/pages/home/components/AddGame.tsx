@@ -1,7 +1,6 @@
 import {
   Button,
   Dialog,
-  Form,
   Input,
   RadioGroup,
   Text,
@@ -16,7 +15,11 @@ import { Ionicons } from '@expo/vector-icons'
 import useGameAPi from '../../../hooks/useGameAPi'
 import { Controller, useForm } from 'react-hook-form'
 import SearchBarWithItems from './SearchBarWithItems'
-import { gameStatus, platoformsOptions } from '../../../utils/constants'
+import {
+  gameCategories,
+  gameStatus,
+  platoformsOptions
+} from '../../../utils/constants'
 import { RadiogroupWithLabel } from '../../../components/RadiogroupWithLabel/RadiogroupWithLabel'
 import { Multiselect } from '../../../components/CheckboxWithLabel/Multiselect'
 
@@ -32,13 +35,21 @@ export const AddGame = (): ReactElement => {
     selectedGame
   } = useGameAPi()
 
-  const { control, setValue, reset } = useForm({
+  const { control, setValue, reset, handleSubmit } = useForm({
     defaultValues: {
       name: selectedGame?.name,
       description: '',
-      image: selectedGame?.image
+      image: selectedGame?.image,
+      score: selectedGame?.score,
+      status: gameStatus.notStarted,
+      platforms: [] as string[],
+      categories: [] as string[]
     }
-  }) // TODO: add handler submit and errors to form
+  }) // TODO: errors to form and submit
+
+  const onSubmit = (data: unknown): void => {
+    console.log(data)
+  }
 
   const handleClose = (): void => {
     setOpen(false)
@@ -52,11 +63,12 @@ export const AddGame = (): ReactElement => {
     if (selectedGame) {
       setValue('name', selectedGame.name)
       setValue('image', selectedGame.image)
+      setValue('score', selectedGame.score || 0)
     }
   }, [selectedGame])
 
   return (
-    <View>
+    <View width={'100%'}>
       <Dialog modal open={open}>
         <Dialog.Trigger asChild>
           <Button
@@ -73,7 +85,7 @@ export const AddGame = (): ReactElement => {
         <Dialog.Portal>
           <Dialog.Overlay key="overlay" animation="quick" opacity={0.5} />
 
-          <Dialog.Content bordered elevate key={'content'}>
+          <Dialog.Content width={'100%'} bordered elevate key={'content'}>
             <Dialog.Title>
               <Text fontSize={'$6'} fontWeight={'bold'}>
                 Add Game
@@ -94,74 +106,91 @@ export const AddGame = (): ReactElement => {
                 handleSearchGameByName={handleSearchGameByName}
               />
             </View>
-            <Form
-              marginTop={'$6'}
-              onSubmit={() => {}}
-              position={'relative'}
-              zIndex={-20}
-            >
-              <YStack space={'$2'}>
-                {/* Add game fields */}
-                <Text>Name</Text>
-                <Controller
-                  control={control}
-                  rules={{
-                    required: true,
-                    maxLength: 50
-                  }}
-                  render={({ field: { onChange, onBlur, value } }) => (
-                    <Input
-                      onChangeText={onChange}
-                      onBlur={onBlur}
-                      value={value}
-                    />
-                  )}
-                  name="name"
-                />
 
-                <Input display={'none'} value={selectedGame?.image} />
-                <Text>Description</Text>
+            <YStack marginTop={'$4'} zIndex={-30} space={'$2'}>
+              {/* Add game fields */}
+              <Text>Name</Text>
+              <Controller
+                control={control}
+                rules={{
+                  required: true,
+                  maxLength: 50
+                }}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <Input
+                    onChangeText={onChange}
+                    onBlur={onBlur}
+                    value={value}
+                  />
+                )}
+                name="name"
+              />
+              <Text>Description</Text>
+              <Controller
+                control={control}
+                rules={{
+                  required: true,
+                  maxLength: 50
+                }}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <TextArea
+                    onChangeText={onChange}
+                    onBlur={onBlur}
+                    value={value}
+                    height={80}
+                  />
+                )}
+                name="description"
+              />
+              <YStack marginTop={'$4'}>
+                <Text>Status</Text>
                 <Controller
                   control={control}
                   rules={{
-                    required: true,
-                    maxLength: 50
+                    required: true
                   }}
                   render={({ field: { onChange, onBlur, value } }) => (
-                    <TextArea
-                      onChangeText={onChange}
+                    <RadioGroup
+                      onValueChange={onChange}
+                      value={String(value)}
                       onBlur={onBlur}
-                      value={value}
-                      height={80}
-                    />
+                    >
+                      <RadiogroupWithLabel
+                        label={'Not Started'}
+                        value={gameStatus.notStarted}
+                      />
+                      <RadiogroupWithLabel
+                        label={'In Progress'}
+                        value={gameStatus.inProgress}
+                      />
+                      <RadiogroupWithLabel
+                        label={'Completed'}
+                        value={gameStatus.completed}
+                      />
+                    </RadioGroup>
                   )}
-                  name="description"
+                  name="status"
                 />
-                <YStack marginTop={'$4'}>
-                  <Text>Status</Text>
-                  <RadioGroup value={gameStatus.notStarted}>
-                    <RadiogroupWithLabel
-                      label={'Not Started'}
-                      value={gameStatus.notStarted}
-                    />
-                    <RadiogroupWithLabel
-                      label={'In Progress'}
-                      value={gameStatus.inProgress}
-                    />
-                    <RadiogroupWithLabel
-                      label={'Completed'}
-                      value={gameStatus.completed}
-                    />
-                  </RadioGroup>
-                </YStack>
               </YStack>
-              <View>
-                <Multiselect
-                  label={'Select your platforms'}
-                  options={platoformsOptions}
-                />
-              </View>
-            </Form>
+            </YStack>
+
+            <YStack space={'$2'}>
+              <Multiselect
+                label={'Select your platforms'}
+                options={platoformsOptions}
+                onChange={(optionSelected: string[]) => {
+                  setValue('platforms', optionSelected)
+                }}
+              />
+
+              <Multiselect
+                label={'Select game genres'}
+                options={gameCategories}
+                onChange={(optionSelected: string[]) => {
+                  setValue('categories', optionSelected)
+                }}
+              />
+            </YStack>
 
             <Unspaced key={'close'}>
               <Dialog.Close asChild>
@@ -187,7 +216,7 @@ export const AddGame = (): ReactElement => {
                   Cancel
                 </Text>
               </Button>
-              <Button onPress={() => {}}>
+              <Button onPressIn={handleSubmit(onSubmit)}>
                 <Text fontSize={'$6'} fontWeight={'bold'}>
                   Save Game
                 </Text>

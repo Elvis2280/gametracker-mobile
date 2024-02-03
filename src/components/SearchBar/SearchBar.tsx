@@ -5,15 +5,23 @@ import { useDebounce } from '../../hooks/useDebounce'
 interface Props {
   placeholder?: string
   handleSearch: (searchText: string) => void
+  callBackWhenSearch?: () => void
 }
 
-const SearchBar = ({ placeholder, handleSearch }: Props): ReactElement => {
+const SearchBar = ({
+  placeholder,
+  handleSearch,
+  callBackWhenSearch
+}: Props): ReactElement => {
   const [searchText, setSearchText] = useState('')
   const { debounceValue } = useDebounce(searchText, 500)
 
   useEffect(() => {
     if (debounceValue) {
       handleSearch(debounceValue)
+      if (callBackWhenSearch) {
+        callBackWhenSearch()
+      }
     }
   }, [debounceValue])
   return (

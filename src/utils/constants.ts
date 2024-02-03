@@ -36,6 +36,43 @@ export const platoformsOptions = [
     value: 'steamdeck'
   }
 ]
+
+export const iconByPlatform = new Map()
+iconByPlatform.set('xbox', 'xbox')
+iconByPlatform.set('playstation', 'playstation')
+iconByPlatform.set('steamdeck', 'steam')
+
+export const gameCategories = [
+  {
+    label: 'Action',
+    value: 'action'
+  },
+  {
+    label: 'Adventure',
+    value: 'adventure'
+  },
+  {
+    label: 'RPG',
+    value: 'rpg'
+  },
+  {
+    label: 'Simulation',
+    value: 'simulation'
+  },
+  {
+    label: 'Strategy',
+    value: 'strategy'
+  },
+  {
+    label: 'Sports',
+    value: 'sports'
+  },
+  {
+    label: 'Puzzle',
+    value: 'puzzle'
+  }
+]
+
 export const gameStatus = {
   notStarted: 'notstarted',
   inProgress: 'inprogress',

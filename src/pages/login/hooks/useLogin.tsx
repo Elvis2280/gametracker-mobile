@@ -17,7 +17,7 @@ export default function useLogin(): {
   const { handleSetToken, handleSetUser } = useSession()
   const { isError, error, mutate, isSuccess, data, isLoading } = useMutation(
     async (data: loginDataType) => {
-      return await axiosIntance.post('api/login', data)
+      return await axiosIntance.post('login', data)
     }
   )
   const handleLogOut = (): void => {
