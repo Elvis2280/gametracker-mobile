@@ -1,7 +1,8 @@
 import SearchBar from '../../../components/SearchBar/SearchBar'
 import { ScrollView, Separator, Spinner, Text, View, YGroup } from 'tamagui'
-import React, { type ReactElement } from 'react'
+import React, { type ReactElement, useState } from 'react'
 import { type gameFormattedData } from '../../../types/gamesAPITypes'
+import OutsidePressHandler from 'react-native-outside-press'
 
 interface Props {
   isLoading: boolean
@@ -18,15 +19,23 @@ const SearchBarWithItems = ({
   handleSelectGame,
   handleSearchGameByName
 }: Props): ReactElement => {
+  const [wasSelected, setWasSelected] = useState(false)
   return (
-    <>
+    <OutsidePressHandler
+      onOutsidePress={() => {
+        setWasSelected(true)
+      }}
+    >
       <SearchBar
         placeholder={'Search game'}
         handleSearch={handleSearchGameByName}
+        callBackWhenSearch={() => {
+          setWasSelected(false)
+        }}
       />
 
       <View
-        display={isReadyToRender ? 'flex' : 'none'}
+        display={isReadyToRender && !wasSelected ? 'flex' : 'none'}
         top={'100%'}
         maxHeight={200}
         backgroundColor={'$blue4'}
@@ -52,6 +61,7 @@ const SearchBarWithItems = ({
                       onPress={() => {
                         if (handleSelectGame) {
                           handleSelectGame(game.id)
+                          setWasSelected(true)
                         }
                       }}
                       fontSize={'$5'}
@@ -66,7 +76,7 @@ const SearchBarWithItems = ({
           </ScrollView>
             )}
       </View>
-    </>
+    </OutsidePressHandler>
   )
 }
 

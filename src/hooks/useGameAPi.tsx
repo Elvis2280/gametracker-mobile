@@ -73,7 +73,7 @@ const useGameAPi = (): customHooksProps => {
     }
   }
 
-  const isReadyToRender = (isSuccess || isLoading) && !selectedGame
+  const isReadyToRender = isSuccess || isLoading
 
   return {
     handleSearchGameByName: mutate,

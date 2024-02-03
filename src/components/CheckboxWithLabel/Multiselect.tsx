@@ -1,5 +1,5 @@
-import { Input, ScrollView, Text, View, XStack, YStack } from 'tamagui'
-import React, { type ReactElement, useState } from 'react'
+import { Input, Label, ScrollView, Text, View, XStack, YStack } from 'tamagui'
+import React, { type ReactElement, useEffect, useState } from 'react'
 import OutsidePressHandler from 'react-native-outside-press'
 import { Ionicons } from '@expo/vector-icons'
 
@@ -11,9 +11,14 @@ interface OptionsType {
 interface Props {
   label: string
   options: OptionsType[]
+  onChange: (selectedOptions: string[]) => void
 }
 
-export const Multiselect = ({ label, options }: Props): ReactElement => {
+export const Multiselect = ({
+  label,
+  options,
+  onChange
+}: Props): ReactElement => {
   const [isOptionsVisible, setIsOptionsVisible] = useState(false)
   const [selectedOptions, setSelectedOptions] = useState<string[]>([])
 
@@ -27,6 +32,20 @@ export const Multiselect = ({ label, options }: Props): ReactElement => {
     }
   }
 
+  const transformPlaceholder = (selectedOptions: string[]): string => {
+    if (selectedOptions.length === 0) {
+      return 'Select an option'
+    }
+    if (selectedOptions.length <= 4) {
+      return selectedOptions.join(', ')
+    }
+    return selectedOptions.slice(0, 4).join(', ') + '...'
+  }
+
+  useEffect(() => {
+    onChange(selectedOptions)
+  }, [selectedOptions])
+
   return (
     <OutsidePressHandler
       onOutsidePress={() => {
@@ -34,11 +53,12 @@ export const Multiselect = ({ label, options }: Props): ReactElement => {
       }}
     >
       <View position={'relative'}>
+        <Label>{label}</Label>
         <Input
           onPress={() => {
             setIsOptionsVisible(!isOptionsVisible)
           }}
-          placeholder={label}
+          placeholder={transformPlaceholder(selectedOptions)}
         />
 
         <YStack
