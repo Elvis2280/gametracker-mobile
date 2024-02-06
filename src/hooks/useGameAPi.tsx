@@ -12,8 +12,6 @@ const useGameAPi = (): customHooksProps => {
     null
   )
 
-  console.log(selectedGame)
-
   const {
     data: gamesResultData,
     isLoading,

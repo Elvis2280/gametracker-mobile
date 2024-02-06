@@ -21,7 +21,9 @@ import {
   platoformsOptions
 } from '../../../utils/constants'
 import { RadiogroupWithLabel } from '../../../components/RadiogroupWithLabel/RadiogroupWithLabel'
-import { Multiselect } from '../../../components/CheckboxWithLabel/Multiselect'
+import { Multiselect } from '../../../components/Multiselect/Multiselect'
+import { useCreateGame } from '../hooks/useCreateGame'
+import { type CreateGameType } from '../../../types/games'
 
 export const AddGame = (): ReactElement => {
   const [open, setOpen] = React.useState(false)
@@ -35,20 +37,24 @@ export const AddGame = (): ReactElement => {
     selectedGame
   } = useGameAPi()
 
+  const { handleCreateGame, isLoading: isCreateLoading } = useCreateGame()
+
   const { control, setValue, reset, handleSubmit } = useForm({
     defaultValues: {
-      name: selectedGame?.name,
+      name: selectedGame?.name ?? '',
       description: '',
-      image: selectedGame?.image,
-      score: selectedGame?.score,
+      image: selectedGame?.image ?? '',
+      score: selectedGame?.score ?? 0,
       status: gameStatus.notStarted,
-      platforms: [] as string[],
-      categories: [] as string[]
+      platforms: [] as string[] | [],
+      tags: [] as string[] | []
     }
-  }) // TODO: errors to form and submit
+  }) // TODO: handle errors and validations
 
-  const onSubmit = (data: unknown): void => {
-    console.log(data)
+  const onSubmit = (data: CreateGameType): void => {
+    handleCreateGame(data)
+    reset()
+    handleClose()
   }
 
   const handleClose = (): void => {
@@ -129,8 +135,7 @@ export const AddGame = (): ReactElement => {
               <Controller
                 control={control}
                 rules={{
-                  required: true,
-                  maxLength: 50
+                  maxLength: 100
                 }}
                 render={({ field: { onChange, onBlur, value } }) => (
                   <TextArea
@@ -187,7 +192,7 @@ export const AddGame = (): ReactElement => {
                 label={'Select game genres'}
                 options={gameCategories}
                 onChange={(optionSelected: string[]) => {
-                  setValue('categories', optionSelected)
+                  setValue('tags', optionSelected)
                 }}
               />
             </YStack>
@@ -212,11 +217,18 @@ export const AddGame = (): ReactElement => {
             {/* Footer */}
             <XStack marginTop={'$4'} justifyContent={'space-between'}>
               <Button variant={'outlined'} onPress={handleClose}>
-                <Text fontSize={'$6'} fontWeight={'bold'}>
+                <Text
+                  disabled={isCreateLoading}
+                  fontSize={'$6'}
+                  fontWeight={'bold'}
+                >
                   Cancel
                 </Text>
               </Button>
-              <Button onPressIn={handleSubmit(onSubmit)}>
+              <Button
+                disabled={isCreateLoading}
+                onPressIn={handleSubmit(onSubmit)}
+              >
                 <Text fontSize={'$6'} fontWeight={'bold'}>
                   Save Game
                 </Text>

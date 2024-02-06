@@ -8,6 +8,7 @@ import React, {
 import useSecureStorage from '../../src/hooks/useStorage'
 import { storageKeys } from '../utils/constants'
 import { type userType } from '../types/user'
+import axiosIntance from '../utils/axioInstance'
 
 interface Props {
   children: ReactElement
@@ -60,6 +61,7 @@ export default function SessionContextHook({ children }: Props): ReactElement {
   useEffect(() => {
     if (token) {
       setLogged(true)
+      axiosIntance.defaults.headers.common.Authorization = `Bearer ${token}`
     } else {
       setLogged(false)
     }
