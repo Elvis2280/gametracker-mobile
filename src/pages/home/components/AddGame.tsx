@@ -135,8 +135,7 @@ export const AddGame = (): ReactElement => {
               <Controller
                 control={control}
                 rules={{
-                  required: true,
-                  maxLength: 50
+                  maxLength: 100
                 }}
                 render={({ field: { onChange, onBlur, value } }) => (
                   <TextArea
