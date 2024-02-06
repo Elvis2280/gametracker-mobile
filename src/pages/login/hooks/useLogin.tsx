@@ -39,7 +39,6 @@ export default function useLogin(): {
 
   useEffect(() => {
     if (isSuccess) {
-      console.log(data.data)
       handleSetToken(data.data.token as string)
       handleSetUser(data.data.userdata as userType)
 
