@@ -4,9 +4,12 @@ import axiosIntance from '../../../utils/axioInstance'
 import { useEffect } from 'react'
 import Toast from 'react-native-toast-message'
 import { iconByPlatform } from '../../../utils/constants'
+import { useSession } from '../../../contex/SessionContext'
+import axios from 'axios'
 
 export const useCreateGame = (): customHooksProps => {
-  const { mutate, isSuccess, isLoading, isError } = useMutation(
+  const { user } = useSession()
+  const { mutate, isSuccess, isLoading, isError, error } = useMutation(
     'createGame',
     async (gameData: CreateGameType) => {
       const platformsWithIcons = gameData.platforms.map((platform) => {
@@ -29,7 +32,7 @@ export const useCreateGame = (): customHooksProps => {
         tags: tagsStructured,
         platforms: platformsWithIcons,
         status: gameData.status,
-        user_id: 2
+        email: user?.email
       })
     }
   )
@@ -47,7 +50,9 @@ export const useCreateGame = (): customHooksProps => {
     if (isError) {
       Toast.show({
         type: 'error',
-        text1: 'Something went wrong, try again 🤔'
+        text1: axios.isAxiosError(error)
+          ? error?.response?.data.error
+          : 'Something went wrong 🤔'
       })
     }
   }, [isError]) // handle error message toast

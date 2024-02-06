@@ -5,7 +5,7 @@ import Toast from 'react-native-toast-message'
 import axiosIntance from '../../../utils/axioInstance'
 
 export const useSignUp = (): signUpHookTypes => {
-  const { isError, isLoading, mutate, isSuccess } = useMutation(
+  const { isError, isLoading, mutate, isSuccess, error } = useMutation(
     async (data: userSignUpDataType) => {
       return await axiosIntance.post('/signup', data)
     }
@@ -18,7 +18,7 @@ export const useSignUp = (): signUpHookTypes => {
         text1: 'Something went wrong 🤔',
         // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
         // @ts-expect-error FIXME: Object is possibly 'undefined'.
-        text2: error?.response?.data?.message || 'Please try again later'
+        text2: error?.response.data.error || 'Please try again later'
       })
     }
 
