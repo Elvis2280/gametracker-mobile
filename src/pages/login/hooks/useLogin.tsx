@@ -32,7 +32,7 @@ export default function useLogin(): {
         text1: 'Something went wrong 🤔',
         // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
         // @ts-expect-error FIXME: Object is possibly 'undefined'.
-        text2: error?.response?.data?.message || 'Please try again later'
+        text2: error?.response.data.error || 'Please try again later'
       })
     }
   }, [isError])

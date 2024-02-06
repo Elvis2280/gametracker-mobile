@@ -53,7 +53,6 @@ export const AddGame = (): ReactElement => {
 
   const onSubmit = (data: CreateGameType): void => {
     handleCreateGame(data)
-    reset()
     handleClose()
   }
 
