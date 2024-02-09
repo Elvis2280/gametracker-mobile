@@ -78,3 +78,13 @@ export const gameStatus = {
   inProgress: 'inprogress',
   completed: 'completed'
 }
+
+export const gameStatusColors = new Map()
+gameStatusColors.set(gameStatus.notStarted, 'gray')
+gameStatusColors.set(gameStatus.inProgress, 'yellow')
+gameStatusColors.set(gameStatus.completed, 'green')
+
+export const gameStatusNames = new Map()
+gameStatusNames.set(gameStatus.notStarted, 'Not started')
+gameStatusNames.set(gameStatus.inProgress, 'In progress')
+gameStatusNames.set(gameStatus.completed, 'Completed')

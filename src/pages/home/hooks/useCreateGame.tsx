@@ -7,7 +7,13 @@ import { iconByPlatform } from '../../../utils/constants'
 import { useSession } from '../../../contex/SessionContext'
 import axios from 'axios'
 
-export const useCreateGame = (): customHooksProps => {
+interface Props {
+  onSuccessCallback: () => void
+}
+
+export const useCreateGame = ({
+  onSuccessCallback
+}: Props): customHooksProps => {
   const { user } = useSession()
   const { mutate, isSuccess, isLoading, isError, error } = useMutation(
     'createGame',
@@ -43,6 +49,7 @@ export const useCreateGame = (): customHooksProps => {
         type: 'success',
         text1: 'Game created! 🎉'
       })
+      onSuccessCallback()
     }
   }, [isSuccess]) // handle success message toast
 
@@ -59,11 +66,13 @@ export const useCreateGame = (): customHooksProps => {
 
   return {
     handleCreateGame: mutate,
-    isLoading
+    isLoading,
+    isSuccess
   }
 }
 
 interface customHooksProps {
   handleCreateGame: (data: CreateGameType) => void
   isLoading: boolean
+  isSuccess: boolean
 }

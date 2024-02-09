@@ -25,7 +25,11 @@ import { Multiselect } from '../../../components/Multiselect/Multiselect'
 import { useCreateGame } from '../hooks/useCreateGame'
 import { type CreateGameType } from '../../../types/games'
 
-export const AddGame = (): ReactElement => {
+interface Props {
+  onSuccessCallback: () => void
+}
+
+export const AddGame = ({ onSuccessCallback }: Props): ReactElement => {
   const [open, setOpen] = React.useState(false)
   const {
     handleSearchGameByName,
@@ -37,7 +41,9 @@ export const AddGame = (): ReactElement => {
     selectedGame
   } = useGameAPi()
 
-  const { handleCreateGame, isLoading: isCreateLoading } = useCreateGame()
+  const { handleCreateGame, isLoading: isCreateLoading } = useCreateGame({
+    onSuccessCallback
+  })
 
   const { control, setValue, reset, handleSubmit } = useForm({
     defaultValues: {
@@ -77,6 +83,7 @@ export const AddGame = (): ReactElement => {
       <Dialog modal open={open}>
         <Dialog.Trigger asChild>
           <Button
+            backgroundColor={'$blue8'}
             onPress={() => {
               setOpen(true)
             }}
