@@ -3,8 +3,6 @@ import { useMutation } from 'react-query'
 import axiosIntance from '../../../utils/axioInstance'
 import { type loginDataType } from '../types'
 import Toast from 'react-native-toast-message'
-import useSecureStorage from '../../../hooks/useStorage'
-import { storageKeys } from '../../../utils/constants'
 import { useSession } from '../../../contex/SessionContext'
 import { type userType } from '../../../types/user'
 
@@ -13,16 +11,14 @@ export default function useLogin(): {
   handleLogOut: () => void
   isLoading: boolean
 } {
-  const { handleDeleteSecureValue } = useSecureStorage()
-  const { handleSetToken, handleSetUser } = useSession()
+  const { handleSetToken, handleSetUser, handleLogOut: logout } = useSession()
   const { isError, error, mutate, isSuccess, data, isLoading } = useMutation(
     async (data: loginDataType) => {
       return await axiosIntance.post('login', data)
     }
   )
-  const handleLogOut = (): void => {
-    handleDeleteSecureValue(storageKeys.token)
-    handleSetToken(null)
+  const handleLogOut = async (): Promise<void> => {
+    logout()
   }
 
   useEffect(() => {

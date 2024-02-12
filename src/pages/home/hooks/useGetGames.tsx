@@ -4,13 +4,22 @@ import { useEffect } from 'react'
 import Toast from 'react-native-toast-message'
 import axios from 'axios'
 import { type GameResponseType } from '../../../types/games'
+import { useSession } from '../../../contex/SessionContext'
 
 export const useGetGames = (): customHooksProps => {
+  const { user } = useSession()
   const { data, error, isError, isLoading, refetch } = useQuery(
-    'games',
+    ['games', user?.email],
     async (): Promise<GameResponseType[]> => {
-      const games = await axiosIntance.get('games')
-      return games.data.games
+      if (user) {
+        const games = await axiosIntance.get('games', {
+          params: {
+            email: user?.email
+          }
+        })
+        return games.data.games
+      }
+      return []
     }
   )
 
