@@ -20,6 +20,7 @@ interface ContextType {
   token: string | null
   handleSetToken: (token: string | null) => void
   handleSetUser: (user: userType | null) => void
+  handleLogOut: () => void
 }
 
 const SessionContext = createContext<ContextType>({
@@ -27,7 +28,8 @@ const SessionContext = createContext<ContextType>({
   isLogged: true,
   token: null,
   handleSetToken: () => {},
-  handleSetUser: () => {}
+  handleSetUser: () => {},
+  handleLogOut: () => {}
 })
 
 export default function SessionContextHook({ children }: Props): ReactElement {
@@ -39,13 +41,15 @@ export default function SessionContextHook({ children }: Props): ReactElement {
   const handleSetToken = async (token: string | null): Promise<void> => {
     setToken(token)
     if (token) {
-      handleSetSecureValue(storageKeys.token, token)
+      await handleSetSecureValue(storageKeys.token, token)
     }
   }
 
   const handleSetUser = async (user: userType | null): Promise<void> => {
     if (user) {
-      handleSetSecureValue(storageKeys.user, JSON.stringify(user))
+      console.log('context', user)
+      await handleSetSecureValue(storageKeys.user, JSON.stringify(user))
+      setUser(user)
     }
   }
 
@@ -56,6 +60,13 @@ export default function SessionContextHook({ children }: Props): ReactElement {
       setToken(token)
       setUser(JSON.parse(user) as userType)
     }
+  }
+
+  const handleLogOut = async (): Promise<void> => {
+    await handleSetSecureValue(storageKeys.token, '')
+    await handleSetSecureValue(storageKeys.user, '')
+    setToken(null)
+    setUser(null)
   }
 
   useEffect(() => {
@@ -78,7 +89,8 @@ export default function SessionContextHook({ children }: Props): ReactElement {
         isLogged: logged,
         token,
         handleSetToken,
-        handleSetUser
+        handleSetUser,
+        handleLogOut
       }}
     >
       {children}

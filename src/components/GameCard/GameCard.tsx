@@ -1,17 +1,20 @@
-import { Button, Image, Text, View, XStack } from 'tamagui'
-import React, { type ReactElement } from 'react'
+import { Image, Text, View, XStack } from 'tamagui'
+import React, { type ReactElement, useState } from 'react'
 import { FontAwesome5 } from '@expo/vector-icons'
 import { Badge } from '../Badge'
 import { LinearGradient } from '@tamagui/linear-gradient'
 import { type GameResponseType } from '../../types/games'
 import { StatusBadge } from '../StatusBadge/StatusBadge'
 import { gameStatusColors, gameStatusNames } from '../../utils/constants'
+import { EditGame } from '../../pages/home/components/EditGame'
 
 interface Props {
   game: GameResponseType
 }
 
 export const GameCard = ({ game }: Props): ReactElement => {
+  const [open, setOpen] = useState(false)
+
   return (
     <LinearGradient
       padding={'$4'}
@@ -23,6 +26,7 @@ export const GameCard = ({ game }: Props): ReactElement => {
     >
       <XStack justifyContent={'space-between'} alignItems={'center'}>
         {/* icons platform */}
+
         <XStack space={'$2'}>
           {game.Platforms.map((platform) => {
             return (
@@ -35,10 +39,9 @@ export const GameCard = ({ game }: Props): ReactElement => {
             )
           })}
         </XStack>
+
         {/* edit button */}
-        <Button variant={'outlined'} size={'$2'}>
-          <FontAwesome5 name={'edit'} size={24} color={'white'} />
-        </Button>
+        <EditGame open={open} setOpen={setOpen} game={game} />
       </XStack>
       <XStack marginTop={'$2'}>
         <XStack space={'$2'} marginTop={'$2'}>

@@ -12,15 +12,18 @@ interface Props {
   label: string
   options: OptionsType[]
   onChange: (selectedOptions: string[]) => void
+  initialValues?: string[]
 }
 
 export const Multiselect = ({
   label,
   options,
-  onChange
+  onChange,
+  initialValues = []
 }: Props): ReactElement => {
   const [isOptionsVisible, setIsOptionsVisible] = useState(false)
-  const [selectedOptions, setSelectedOptions] = useState<string[]>([])
+  const [selectedOptions, setSelectedOptions] =
+    useState<string[]>(initialValues)
 
   const handlerSelectOption = (option: string): void => {
     if (selectedOptions.includes(option)) {

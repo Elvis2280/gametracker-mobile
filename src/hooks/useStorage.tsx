@@ -17,8 +17,7 @@ export default function useSecureStorage(): {
     key: string
   ): Promise<string | null | undefined> => {
     try {
-      const value = await SecureStore.getItemAsync(key)
-      return value
+      return await SecureStore.getItemAsync(key)
     } catch (e) {
       console.log(e)
     }
