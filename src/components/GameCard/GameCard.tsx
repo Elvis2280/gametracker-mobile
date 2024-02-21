@@ -1,20 +1,18 @@
 import { Image, Text, View, XStack } from 'tamagui'
-import React, { type ReactElement, useState } from 'react'
+import React, { type ReactElement } from 'react'
 import { FontAwesome5 } from '@expo/vector-icons'
 import { Badge } from '../Badge'
 import { LinearGradient } from '@tamagui/linear-gradient'
 import { type GameResponseType } from '../../types/games'
 import { StatusBadge } from '../StatusBadge/StatusBadge'
 import { gameStatusColors, gameStatusNames } from '../../utils/constants'
-import { EditGame } from '../../pages/home/components/EditGame'
 
 interface Props {
   game: GameResponseType
+  editGameButton?: ReactElement
 }
 
-export const GameCard = ({ game }: Props): ReactElement => {
-  const [open, setOpen] = useState(false)
-
+export const GameCard = ({ game, editGameButton }: Props): ReactElement => {
   return (
     <LinearGradient
       padding={'$4'}
@@ -41,7 +39,7 @@ export const GameCard = ({ game }: Props): ReactElement => {
         </XStack>
 
         {/* edit button */}
-        <EditGame open={open} setOpen={setOpen} game={game} />
+        {editGameButton}
       </XStack>
       <XStack marginTop={'$2'}>
         <XStack space={'$2'} marginTop={'$2'}>

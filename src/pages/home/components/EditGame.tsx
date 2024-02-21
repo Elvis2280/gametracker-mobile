@@ -19,31 +19,47 @@ import {
 } from '../../../utils/constants'
 import { Multiselect } from '../../../components/Multiselect/Multiselect'
 import { FontAwesome5, Ionicons } from '@expo/vector-icons'
-import React, { type ReactElement } from 'react'
-import type { GameResponseType } from '../../../types/games'
+import React, { type ReactElement, useState } from 'react'
+import type { CreateGameType, GameResponseType } from '../../../types/games'
+import { useCreateGame } from '../hooks/useCreateGame'
 
 interface Props {
-  open: boolean
-  setOpen: (open: boolean) => void
   game: GameResponseType
+  handleOnSuccess: () => void
 }
 
-export const EditGame = ({ open, game, setOpen }: Props): ReactElement => {
+export const EditGame = ({ game, handleOnSuccess }: Props): ReactElement => {
+  const [open, setOpen] = useState(false)
   const platformsList = game.Platforms.map((platform) => platform.name)
+  const { handleCreateGame: handleUpdateGame, isLoading } = useCreateGame({
+    onSuccessCallback: () => {
+      setOpen(false)
+      handleOnSuccess()
+    },
+    isUpdate: true
+  })
   const tagsList = game.Tags.map((tag) => tag.name)
-  const { control, setValue } = useForm({
+  const { control, setValue, handleSubmit } = useForm({
     defaultValues: {
       name: game.name,
       description: game.description,
       image: game.image,
       status: game.status,
       platforms: platformsList,
-      tags: tagsList
+      tags: tagsList,
+      score: game.score || 0
     }
   }) // TODO: handle errors and validations
 
   const handleClose = (): void => {
     setOpen(false)
+  }
+
+  const onSubmit = (data: CreateGameType): void => {
+    handleUpdateGame({
+      ...data,
+      id: game.ID
+    })
   }
 
   return (
@@ -182,18 +198,11 @@ export const EditGame = ({ open, game, setOpen }: Props): ReactElement => {
             {/* Footer */}
             <XStack marginTop={'$4'} justifyContent={'space-between'}>
               <Button variant={'outlined'} onPress={handleClose}>
-                <Text
-                  // disabled={isCreateLoading}
-                  fontSize={'$6'}
-                  fontWeight={'bold'}
-                >
+                <Text disabled={isLoading} fontSize={'$6'} fontWeight={'bold'}>
                   Cancel
                 </Text>
               </Button>
-              <Button
-              // disabled={isCreateLoading}
-              // onPressIn={handleSubmit(onSubmit)}
-              >
+              <Button disabled={isLoading} onPressIn={handleSubmit(onSubmit)}>
                 <Text fontSize={'$6'} fontWeight={'bold'}>
                   Save Edit
                 </Text>

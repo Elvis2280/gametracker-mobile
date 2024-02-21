@@ -9,10 +9,12 @@ import axios from 'axios'
 
 interface Props {
   onSuccessCallback: () => void
+  isUpdate?: boolean
 }
 
 export const useCreateGame = ({
-  onSuccessCallback
+  onSuccessCallback,
+  isUpdate = false
 }: Props): customHooksProps => {
   const { user } = useSession()
   const { mutate, isSuccess, isLoading, isError, error } = useMutation(
@@ -31,15 +33,27 @@ export const useCreateGame = ({
         }
       })
 
-      return await axiosIntance.post('games', {
-        description: gameData.description,
-        image: gameData.image,
-        name: gameData.name,
-        tags: tagsStructured,
-        platforms: platformsWithIcons,
-        status: gameData.status,
-        email: user?.email
-      })
+      if (isUpdate) {
+        return await axiosIntance.put(`games/${gameData.id}`, {
+          description: gameData.description,
+          image: gameData.image,
+          name: gameData.name,
+          tags: tagsStructured,
+          platforms: platformsWithIcons,
+          status: gameData.status,
+          email: user?.email
+        })
+      } else {
+        return await axiosIntance.post('games', {
+          description: gameData.description,
+          image: gameData.image,
+          name: gameData.name,
+          tags: tagsStructured,
+          platforms: platformsWithIcons,
+          status: gameData.status,
+          email: user?.email
+        })
+      }
     }
   )
 
@@ -47,7 +61,9 @@ export const useCreateGame = ({
     if (isSuccess) {
       Toast.show({
         type: 'success',
-        text1: 'Game created! 🎉'
+        text1: isUpdate
+          ? 'Game updated successfully'
+          : 'Game created successfully'
       })
       onSuccessCallback()
     }
