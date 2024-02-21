@@ -19,23 +19,17 @@ import {
 } from '../../../utils/constants'
 import { Multiselect } from '../../../components/Multiselect/Multiselect'
 import { FontAwesome5, Ionicons } from '@expo/vector-icons'
-import React, { type ReactElement } from 'react'
+import React, { type ReactElement, useState } from 'react'
 import type { CreateGameType, GameResponseType } from '../../../types/games'
 import { useCreateGame } from '../hooks/useCreateGame'
 
 interface Props {
-  open: boolean
-  setOpen: (open: boolean) => void
   game: GameResponseType
   handleOnSuccess: () => void
 }
 
-export const EditGame = ({
-  open,
-  game,
-  setOpen,
-  handleOnSuccess
-}: Props): ReactElement => {
+export const EditGame = ({ game, handleOnSuccess }: Props): ReactElement => {
+  const [open, setOpen] = useState(false)
   const platformsList = game.Platforms.map((platform) => platform.name)
   const { handleCreateGame: handleUpdateGame, isLoading } = useCreateGame({
     onSuccessCallback: () => {

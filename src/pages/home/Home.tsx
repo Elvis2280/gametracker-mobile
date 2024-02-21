@@ -8,6 +8,7 @@ import Filters from '../../components/Filters/Filters'
 import { GameCard } from '../../components/GameCard/GameCard'
 import AddGame from './components/AddGame'
 import { useGetGames } from './hooks/useGetGames'
+import { EditGame } from './components/EditGame'
 
 export default function Home(): ReactElement {
   const { handleLogOut } = useLogin()
@@ -75,7 +76,9 @@ export default function Home(): ReactElement {
                 {games?.map((game, i) => {
                   return (
                     <GameCard
-                      onSuccessfulUpdate={getGames}
+                      editGameButton={
+                        <EditGame handleOnSuccess={getGames} game={game} />
+                      }
                       key={i}
                       game={game}
                     />
