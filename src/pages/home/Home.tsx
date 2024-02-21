@@ -73,7 +73,13 @@ export default function Home(): ReactElement {
               </Text>
               <YStack space={'$4'}>
                 {games?.map((game, i) => {
-                  return <GameCard key={i} game={game} />
+                  return (
+                    <GameCard
+                      onSuccessfulUpdate={getGames}
+                      key={i}
+                      game={game}
+                    />
+                  )
                 })}
               </YStack>
             </View>

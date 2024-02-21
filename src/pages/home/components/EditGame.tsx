@@ -27,13 +27,20 @@ interface Props {
   open: boolean
   setOpen: (open: boolean) => void
   game: GameResponseType
+  handleOnSuccess: () => void
 }
 
-export const EditGame = ({ open, game, setOpen }: Props): ReactElement => {
+export const EditGame = ({
+  open,
+  game,
+  setOpen,
+  handleOnSuccess
+}: Props): ReactElement => {
   const platformsList = game.Platforms.map((platform) => platform.name)
   const { handleCreateGame: handleUpdateGame, isLoading } = useCreateGame({
     onSuccessCallback: () => {
       setOpen(false)
+      handleOnSuccess()
     },
     isUpdate: true
   })

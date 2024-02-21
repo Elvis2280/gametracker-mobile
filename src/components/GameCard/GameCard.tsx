@@ -10,9 +10,10 @@ import { EditGame } from '../../pages/home/components/EditGame'
 
 interface Props {
   game: GameResponseType
+  onSuccessfulUpdate: () => void
 }
 
-export const GameCard = ({ game }: Props): ReactElement => {
+export const GameCard = ({ game, onSuccessfulUpdate }: Props): ReactElement => {
   const [open, setOpen] = useState(false)
 
   return (
@@ -41,7 +42,12 @@ export const GameCard = ({ game }: Props): ReactElement => {
         </XStack>
 
         {/* edit button */}
-        <EditGame open={open} setOpen={setOpen} game={game} />
+        <EditGame
+          handleOnSuccess={onSuccessfulUpdate}
+          open={open}
+          setOpen={setOpen}
+          game={game}
+        />
       </XStack>
       <XStack marginTop={'$2'}>
         <XStack space={'$2'} marginTop={'$2'}>
