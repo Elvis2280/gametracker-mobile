@@ -1,4 +1,5 @@
 export interface CreateGameType {
+  id?: number
   name: string
   description: string
   image: string
@@ -19,6 +20,7 @@ export interface GameResponseType {
   image: string
   name: string
   status: string
+  score: number
 }
 
 export interface plaformsType {
