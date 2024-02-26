@@ -11,17 +11,17 @@ import {
   YStack
 } from 'tamagui'
 import { Controller, useForm } from 'react-hook-form'
-import { RadiogroupWithLabel } from '../../../components/RadiogroupWithLabel/RadiogroupWithLabel'
+import { RadiogroupWithLabel } from '../RadiogroupWithLabel/RadiogroupWithLabel'
 import {
   gameCategories,
   gameStatus,
   platoformsOptions
-} from '../../../utils/constants'
-import { Multiselect } from '../../../components/Multiselect/Multiselect'
+} from '../../utils/constants'
+import { Multiselect } from '../Multiselect/Multiselect'
 import { FontAwesome5, Ionicons } from '@expo/vector-icons'
 import React, { type ReactElement, useState } from 'react'
-import type { CreateGameType, GameResponseType } from '../../../types/games'
-import { useCreateGame } from '../hooks/useCreateGame'
+import type { CreateGameType, GameResponseType } from '../../types/games'
+import { useCreateGame } from '../../pages/home/hooks/useCreateGame'
 
 interface Props {
   game: GameResponseType
@@ -73,7 +73,14 @@ export const EditGame = ({ game, handleOnSuccess }: Props): ReactElement => {
             variant={'outlined'}
             size={'$2'}
           >
-            <FontAwesome5 name={'edit'} size={24} color={'white'} />
+            <XStack
+              justifyContent={'space-between'}
+              alignItems={'center'}
+              columnGap={'$2'}
+            >
+              <FontAwesome5 name={'edit'} size={22} color={'white'} />
+              <Text>Edit</Text>
+            </XStack>
           </Button>
         </Dialog.Trigger>
 
