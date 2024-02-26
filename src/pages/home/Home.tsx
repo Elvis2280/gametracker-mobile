@@ -8,7 +8,6 @@ import Filters from '../../components/Filters/Filters'
 import { GameCard } from '../../components/GameCard/GameCard'
 import AddGame from './components/AddGame'
 import { useGetGames } from './hooks/useGetGames'
-import { EditGame } from './components/EditGame'
 
 export default function Home(): ReactElement {
   const { handleLogOut } = useLogin()
@@ -75,13 +74,7 @@ export default function Home(): ReactElement {
               <YStack space={'$4'}>
                 {games?.map((game, i) => {
                   return (
-                    <GameCard
-                      editGameButton={
-                        <EditGame handleOnSuccess={getGames} game={game} />
-                      }
-                      key={i}
-                      game={game}
-                    />
+                    <GameCard onEditSuccess={getGames} key={i} game={game} />
                   )
                 })}
               </YStack>

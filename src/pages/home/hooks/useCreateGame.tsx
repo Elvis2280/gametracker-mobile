@@ -57,6 +57,14 @@ export const useCreateGame = ({
     }
   )
 
+  const {
+    isError: isDeleteError,
+    isSuccess: successDelete,
+    mutate: handleDeleteGame
+  } = useMutation('deleteGame', async (id: string) => {
+    return await axiosIntance.delete(`games/${id}`)
+  })
+
   useEffect(() => {
     if (isSuccess) {
       Toast.show({
@@ -80,10 +88,30 @@ export const useCreateGame = ({
     }
   }, [isError]) // handle error message toast
 
+  useEffect(() => {
+    if (isDeleteError) {
+      Toast.show({
+        type: 'error',
+        text1: axios.isAxiosError(error)
+          ? error?.response?.data.error
+          : 'Something went wrong 🤔'
+      })
+    }
+
+    if (successDelete) {
+      onSuccessCallback()
+      Toast.show({
+        type: 'success',
+        text1: 'Game deleted successfully'
+      })
+    }
+  }, [isDeleteError, successDelete])
+
   return {
     handleCreateGame: mutate,
     isLoading,
-    isSuccess
+    isSuccess,
+    handleDeleteGame
   }
 }
 
@@ -91,4 +119,5 @@ interface customHooksProps {
   handleCreateGame: (data: CreateGameType) => void
   isLoading: boolean
   isSuccess: boolean
+  handleDeleteGame?: (id: string) => void
 }

@@ -6,13 +6,14 @@ import { LinearGradient } from '@tamagui/linear-gradient'
 import { type GameResponseType } from '../../types/games'
 import { StatusBadge } from '../StatusBadge/StatusBadge'
 import { gameStatusColors, gameStatusNames } from '../../utils/constants'
+import { GameMenu } from './GameMenu'
 
 interface Props {
   game: GameResponseType
-  editGameButton?: ReactElement
+  onEditSuccess: () => void
 }
 
-export const GameCard = ({ game, editGameButton }: Props): ReactElement => {
+export const GameCard = ({ game, onEditSuccess }: Props): ReactElement => {
   return (
     <LinearGradient
       padding={'$4'}
@@ -22,7 +23,11 @@ export const GameCard = ({ game, editGameButton }: Props): ReactElement => {
       end={[0, 0]}
       minHeight={340}
     >
-      <XStack justifyContent={'space-between'} alignItems={'center'}>
+      <XStack
+        justifyContent={'space-between'}
+        alignItems={'center'}
+        zIndex={10}
+      >
         {/* icons platform */}
 
         <XStack space={'$2'}>
@@ -39,7 +44,9 @@ export const GameCard = ({ game, editGameButton }: Props): ReactElement => {
         </XStack>
 
         {/* edit button */}
-        {editGameButton}
+        <View position={'relative'}>
+          <GameMenu game={game} onSuccess={onEditSuccess} />
+        </View>
       </XStack>
       <XStack marginTop={'$2'}>
         <XStack space={'$2'} marginTop={'$2'}>
